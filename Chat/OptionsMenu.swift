@@ -24,7 +24,7 @@ struct OptionsMenu: View {
             //ScrollView{
                 VStack{
                     List(0..<previousOption.count, id: \.self){idx in
-                        VStack{
+                        VStack(alignment: .leading){
                             HStack{
                                 Spacer()
                                 Text(previousOption[idx])

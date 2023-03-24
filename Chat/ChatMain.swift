@@ -24,7 +24,7 @@ struct ChatMain: View {
             VStack{
                 Text(websocket.userTyping)
                     .onChange(of: websocket.time, perform: {newVal in
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
                             if(websocket.time <= .now()){
                                 websocket.userTyping = ""
                                 websocket.lastTyping = ""
