@@ -11,11 +11,12 @@ struct AllChatsCell: View {
     @State var messageModel:MessageModel
     @State var textViewHeight:CGFloat = 0.0
     @State var textViewHeight2:CGFloat = 0.0
+    @State var chatModel:ChatModel
     let dateFormatter = ISO8601DateFormatter()
     var body: some View {
             VStack(alignment: .leading){
                 HStack(alignment: .top){
-                    Text(messageModel.sender_username)
+                    Text(chatModel.title)
                         .font(Font(CTFont(.system, size: 16)))
                         .bold()
                     Spacer()

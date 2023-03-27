@@ -30,10 +30,11 @@ class ChatApi{
         })
     }
     
-    func createChat(userName:String, pass:String, completition: ((Any, Any) -> ())?){
+    func createChat(userName:String, pass:String, previousOption:String, userToAdd:String,  completition: ((Any, Any) -> ())?){
         let url = "https://api.chatengine.io/chats/"
-        let parameters = "{\n    \"title\": \"\(UUID())\",\n    \"is_direct_chat\": false\n}"
-        let httpMethod = "POST"
+        let parameters = "{\n    \"usernames\": [\"\(userName)\", \"\(userToAdd)\"],\n    \"title\": \"\(previousOption)\",\n    \"is_direct_chat\": true\n}"
+
+        let httpMethod = "PUT"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
         NetworkManager.shared.connect(parameters: parameters, url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, completition: {data, error in

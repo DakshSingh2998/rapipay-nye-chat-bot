@@ -42,7 +42,6 @@ class Websocket:ObservableObject {
             case .success(let message):
                 switch message {
                 case .string(let text):
-                    print(text)
                     guard let data = text.data(using: .utf8) else{
                         break
                     }
@@ -54,7 +53,6 @@ class Websocket:ObservableObject {
                     guard let data2 = jsonData as? [String:Any] else{
                         break
                     }
-                    print(data2)
                     if(data2["action"] as! String == "new_message"){
                         guard let data2 = data2["data"] as? [String:Any] else{
                             break
@@ -62,7 +60,7 @@ class Websocket:ObservableObject {
                         guard let data2 = data2["message"] as? [String:Any] else{
                             break
                         }
-                        DispatchQueue.global(qos: .userInitiated).async {
+                        DispatchQueue.main.async {
                             self.messages.append(MessageModel(data: data2))
                         }
                     }

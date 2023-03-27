@@ -16,20 +16,22 @@ struct AllChats: View {
     @State var allChats:[ChatModel] = []
     @State var chatModel:ChatModel?
     @State var gotoChatMain = false
+    @State var showUi = true
     var body: some View {
         ZStack(alignment: .bottomTrailing){
-            VStack{
-                Spacer()
-                generateList()
+            if(showUi == true){
+                VStack{
+                    Spacer()
+                    generateList()
+                    
+                    NavigationLink("OptionsMenu", destination: OptionsMenu(ONPAGE: $ONPAGE, userModel: $userModel), isActive: $gotoOptionsMenu)
+                        .hidden()
+                    NavigationLink("ChatMain", destination: ChatMain(ONPAGE: $ONPAGE, userModel: $userModel, chatModel: $chatModel), isActive: $gotoChatMain).hidden()
+                    
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.bottom, 64)
                 
-                NavigationLink("OptionsMenu", destination: OptionsMenu(ONPAGE: $ONPAGE, userModel: $userModel), isActive: $gotoOptionsMenu)
-                    .hidden()
-                NavigationLink("ChatMain", destination: ChatMain(ONPAGE: $ONPAGE, userModel: $userModel, chatModel: $chatModel), isActive: $gotoChatMain).hidden()
-            
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(.bottom, 64)
-            
                 Text("+")
                     .font(Font(CTFont(.system, size: 32))).bold()
                     .foregroundColor(Color("White"))
@@ -40,8 +42,11 @@ struct AllChats: View {
                     .onTapGesture {
                         gotoOptionsMenu = true
                     }
-            
-                    
+            }
+            else{
+                EmptyView()
+            }
+        
         }.alert(alertText, isPresented: $showAlert, actions: {
             Button("OK", role: .cancel, action: {
                 showAlert = false
@@ -55,7 +60,13 @@ struct AllChats: View {
                     showAlert = true
                     return
                 }
+                
                 self.allChats = allChats!
+                showUi = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+                    showUi = true
+                })
+                
                 
             })
         }
@@ -65,7 +76,7 @@ struct AllChats: View {
     func generateList() -> some View{
         List(0..<allChats.count, id: \.self){idx in
             HStack{
-                AllChatsCell(messageModel: MessageModel(data: allChats[idx].last_message) )
+                AllChatsCell(messageModel: MessageModel(data: allChats[idx].last_message), chatModel: allChats[idx])
                     .background(Color("LightGrey"))
                     .frame(maxWidth: .infinity)
                     .background(Color("LightGrey"))

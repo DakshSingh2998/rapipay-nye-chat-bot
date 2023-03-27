@@ -9,27 +9,13 @@ import Foundation
 class OptionsMenuModel{
     static var shared  = OptionsMenuModel()
     
-    func createChat(userName:String, pass:String, completition:((ChatModel?, String?) -> ())?){
+    func createChat(userName:String, pass:String,previousOption:String, completition:((ChatModel?, String?) -> ())?){
         var chatModel:ChatModel?
         var randAgent:UserModel?
-        var dg = DispatchGroup()
-        var completed = 0
-        dg.enter()
-        ChatApi.shared.createChat(userName: userName, pass: pass, completition: {data, error in
-            guard let data = data as? [String: Any] else {
-                completition?(nil, (error as! Error).localizedDescription)
-                dg.leave()
-                return
-            }
-            chatModel = ChatModel(data: data)
-            completed = completed + 1
-            dg.leave()
-        })
-        dg.enter()
+        
         UserApi.shared.getUsers(completition: {data, error in
             guard let data = data as? [[String:Any]] else{
                 completition?(nil, (error as! Error).localizedDescription)
-                dg.leave()
                 return
             }
             var usersModel = data.map{UserModel(data: $0)}
@@ -41,22 +27,18 @@ class OptionsMenuModel{
                }
                let randomAgent = Int.random(in: 0..<agents.count)
             randAgent = usersModel[randomAgent]
-            completed = completed + 1
-
-            dg.leave()
+            ChatApi.shared.createChat(userName: userName, pass: pass, previousOption: previousOption, userToAdd: randAgent!.userName, completition: {data, error in
+                guard let data = data as? [String: Any] else {
+                    completition?(nil, (error as! Error).localizedDescription)
+                    return
+                }
+                chatModel = ChatModel(data: data)
+                completition?(chatModel, nil)
+                return
+            })
         })
-        dg.notify(queue: DispatchQueue.global(qos: .utility), execute: {
-            if(completed == 2){
-                ChatApi.shared.addMember(chatId: chatModel!.id, userName: userName, pass: pass, userModelToAdd: randAgent!.userName, completition: {data, error in
-                    guard let data = data as? [String: Any] else {
-                        completition?(nil, (error as! Error).localizedDescription)
-                        return
-                    }
-                    completition?(chatModel, nil)
-                })
-                
-            }
-        })
+        
+        
     }
     
     func loadOptions(completition: (([String: [String]]?) ->())?){

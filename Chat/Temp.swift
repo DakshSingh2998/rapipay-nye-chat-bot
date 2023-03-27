@@ -10,7 +10,9 @@ import SwiftUI
 
 struct Temp{
     init(){
+        
         /*
+        
         var savedOption:[String: TDataCore] = [:]
         
         savedOption["root"] = DatabaseHelper.shared.saveOption(text: "root")
@@ -21,11 +23,15 @@ struct Temp{
         savedOption["Open Account"] = DatabaseHelper.shared.saveOption(text: "Open Account", parents: parents)
         savedOption["Rapi Money"] = DatabaseHelper.shared.saveOption(text: "Rapi Money", parents: parents)
         savedOption["UPI Payments"] = DatabaseHelper.shared.saveOption(text: "UPI Payments", parents: parents)
+         
+         
         parents = []
         parents.append(savedOption["NYE Prepaid Card"]!)
         parents.append(savedOption["Open Account"]!)
-        
         savedOption["Login to NYE Banking App"] = DatabaseHelper.shared.saveOption(text: "Login to NYE Banking App", parents: parents)
+         
+         
+         
         parents = []
         parents.append(savedOption["NYE Prepaid Card"]!)
         

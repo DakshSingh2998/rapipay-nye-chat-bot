@@ -28,10 +28,23 @@ struct OptionsMenu: View {
                             HStack{
                                 Spacer()
                                 Text(previousOption[idx])
+                                    .font(.system(size: 16))
+                                    .bold()
+                                    .padding(.all, 10)
+                                //.border(Color("Blue"))
+                                    .cornerRadius(10)
+                                    .background(Color("Blue"))
+                                    .cornerRadius(10)
+                                    .overlay{RoundedRectangle(cornerRadius: 10.0, style: .continuous).stroke( Color("Orange"), lineWidth: 2)}
+                                    .cornerRadius(10)
                             }
                             
                             if(idx == previousOption.count - 1){
                                 OptionCell(currentOptions: $currentOptions, completition: { clickedText in
+                                    if(clickedText == "Talk to Customer Care"){
+                                        createChat()
+                                        return
+                                    }
                                     currentOptions = options[clickedText]!
                                     previousOption.append(clickedText)
                                     refreshOptions = false
@@ -42,8 +55,14 @@ struct OptionsMenu: View {
                             else{
                                 EmptyView()
                             }
-                        }.frame(maxHeight: .infinity)
+                        }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listSectionSeparator(.hidden)
+                        .frame(maxHeight: .infinity)
                     }
+                    .listStyle(.plain)
+                        .padding(.horizontal, 0)
                     .frame(maxHeight: .infinity)
                         
                     
@@ -69,7 +88,7 @@ struct OptionsMenu: View {
         }
     }
     func createChat(){
-        OptionsMenuModel.shared.createChat(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, completition: {chatModel, error in
+        OptionsMenuModel.shared.createChat(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, previousOption: previousOption[previousOption.count - 1], completition: {chatModel, error in
             if(error != nil){
                 alertText = error!
                 showAlert = true

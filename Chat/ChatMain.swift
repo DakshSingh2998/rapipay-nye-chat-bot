@@ -70,7 +70,7 @@ struct ChatMain: View {
                     showAlert = true
                     return
                 }
-                DispatchQueue.global(qos: .userInitiated).async {
+                DispatchQueue.main.async {
                     websocket.messages = data.map{
                         MessageModel(data: $0)
                     }
@@ -153,37 +153,52 @@ struct ChatMain: View {
     }
     
     func generateList() -> some View{
-        return List(0..<websocket.messages.count, id: \.self){ idx in
-            VStack{
-                if(websocket.messages[idx].sender_username == userModel?.userName){
-                    
-                    HStack(alignment: .top, spacing: -2){
-                        Spacer(minLength: 64)
-                        ChatCell(messageModel: websocket.messages[idx])
+        return
+        ScrollViewReader { sp in
+            List((0..<websocket.messages.count).reversed(), id: \.self){ idx in
+                VStack{
+                    if(websocket.messages[idx].sender_username == userModel?.userName){
                         
-                            .upperCurve(10, corners: [.topLeft, .bottomLeft, .bottomRight])
-                        Image(systemName: "arrowtriangle.forward.fill")
-                            .foregroundColor(Color("LightGrey"))
-                            .padding(.top, 0)
+                        HStack(alignment: .top, spacing: -2){
+                            Spacer(minLength: 64)
+                            ChatCell(messageModel: websocket.messages[idx])
+                            
+                                .upperCurve(10, corners: [.topLeft, .bottomLeft, .bottomRight])
+                            Image(systemName: "arrowtriangle.forward.fill")
+                                .foregroundColor(Color("LightGrey"))
+                                .padding(.top, 0)
+                        }
+                    }
+                    else{
+                        HStack(alignment: .top, spacing: -2){
+                            Image(systemName: "arrowtriangle.backward.fill")
+                                .foregroundColor(Color("LightGrey"))
+                                .padding(.top, 0)
+                            ChatCell(messageModel: websocket.messages[idx])
+                                .upperCurve(10, corners: [.topRight, .bottomLeft, .bottomRight])
+                            Spacer(minLength: 64)
+                        }
+                        
                     }
                 }
-                else{
-                    HStack(alignment: .top, spacing: -2){
-                        Image(systemName: "arrowtriangle.backward.fill")
-                            .foregroundColor(Color("LightGrey"))
-                            .padding(.top, 0)
-                        ChatCell(messageModel: websocket.messages[idx])
-                            .upperCurve(10, corners: [.topRight, .bottomLeft, .bottomRight])
-                        Spacer(minLength: 64)
-                    }
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listSectionSeparator(.hidden)
+                .scaleEffect(x: 1, y: -1, anchor: .center)
+                .onAppear(){
+                        //sp.scrollTo(idx)
+                    //print(idx)
+                    
+                    
                     
                 }
-            }
-            .listRowBackground(Color.clear)
-            .listRowSeparator(.hidden)
-            .listSectionSeparator(.hidden)
-        }.listStyle(.plain)
-            .padding(.horizontal, -20)
+            }.listStyle(.plain)
+                .padding(.horizontal, -20)
+                .scaleEffect(x: 1, y: -1, anchor: .center)
+                
+        }
+        
+
     }
     func bottomUi() -> some View{
         return ZStack(alignment: .leading){
