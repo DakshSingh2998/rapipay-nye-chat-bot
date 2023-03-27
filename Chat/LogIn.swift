@@ -118,7 +118,7 @@ struct LogIn: View {
                 vmUserName.value = "daksh2998"
                 vmPass.value = "Daksh@90"
                 var temp = Temp()
-                DatabaseHelper.shared.loadOptions()
+                //DatabaseHelper.shared.loadOptions()
             }
             .alert(commonAlert, isPresented: $showCommonAlert, actions: {
                 Button("OK", role: .cancel, action: {

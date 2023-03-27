@@ -20,12 +20,8 @@ struct AllChats: View {
         ZStack(alignment: .bottomTrailing){
             VStack{
                 Spacer()
-                List(0..<allChats.count, id: \.self){idx in
-                    Text("\(allChats[idx].id)").onTapGesture {
-                        chatModel = allChats[idx]
-                        gotoChatMain = true
-                    }
-                }
+                generateList()
+                
                 NavigationLink("OptionsMenu", destination: OptionsMenu(ONPAGE: $ONPAGE, userModel: $userModel), isActive: $gotoOptionsMenu)
                     .hidden()
                 NavigationLink("ChatMain", destination: ChatMain(ONPAGE: $ONPAGE, userModel: $userModel, chatModel: $chatModel), isActive: $gotoChatMain).hidden()
@@ -65,5 +61,35 @@ struct AllChats: View {
         }
         .navigationTitle("Chats")
 
+    }
+    func generateList() -> some View{
+        List(0..<allChats.count, id: \.self){idx in
+            HStack{
+                AllChatsCell(messageModel: MessageModel(data: allChats[idx].last_message) )
+                    .background(Color("LightGrey"))
+                    .frame(maxWidth: .infinity)
+                    .background(Color("LightGrey"))
+                Text(">").bold()
+                    .padding(.horizontal, 10)
+            }
+            .cornerRadius(10)
+            .background(Color("LightGrey"))
+            .cornerRadius(10)
+            .padding(.horizontal, 10)
+            .cornerRadius(10)
+            
+            .onTapGesture {
+                chatModel = allChats[idx]
+                gotoChatMain = true
+            }
+            
+                .listRowBackground(Color.clear)
+                //.listRowSeparator(.hidden)
+                .listSectionSeparator(.hidden)
+                .cornerRadius(10)
+        }
+        .cornerRadius(10)
+        .listStyle(.plain)
+        .padding(.horizontal, -20)
     }
 }

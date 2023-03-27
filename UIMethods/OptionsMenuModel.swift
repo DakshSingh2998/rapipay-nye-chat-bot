@@ -65,10 +65,10 @@ class OptionsMenuModel{
         for i in options{
             if(finalOptions[i.text!] == nil){
                 finalOptions[i.text!] = []
-                if(i.toMany == nil){
+                if(i.children == nil){
                     continue
                 }
-                for j in i.toMany!{
+                for j in i.children!{
                     finalOptions[i.text!]?.append((j as! TDataCore).text!)
                 }
             }

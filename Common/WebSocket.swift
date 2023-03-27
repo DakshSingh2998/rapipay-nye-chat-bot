@@ -72,7 +72,7 @@ class Websocket:ObservableObject {
                         }
                         DispatchQueue.global(qos: .userInitiated).async {
                             if(self.userTyping != "" &&  self.lastTyping != data2["person"] as! String){
-                                self.userTyping = "Both Typing"
+                                self.userTyping = "Both"
                             }
                             else{
                                 self.userTyping = data2["person"] as! String

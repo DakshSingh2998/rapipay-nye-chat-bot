@@ -2,7 +2,7 @@
 //  TDataCore+CoreDataProperties.swift
 //  Chat
 //
-//  Created by Daksh on 24/03/23.
+//  Created by Daksh on 27/03/23.
 //
 //
 
@@ -17,43 +17,78 @@ extension TDataCore {
     }
 
     @NSManaged public var text: String?
-    @NSManaged public var toMany: NSOrderedSet?
-    @NSManaged public var toOne: TDataCore?
+    @NSManaged public var children: NSOrderedSet?
+    @NSManaged public var parents: NSOrderedSet?
 
 }
 
-// MARK: Generated accessors for toMany
+// MARK: Generated accessors for children
 extension TDataCore {
 
-    @objc(insertObject:inToManyAtIndex:)
-    @NSManaged public func insertIntoToMany(_ value: TDataCore, at idx: Int)
+    @objc(insertObject:inChildrenAtIndex:)
+    @NSManaged public func insertIntoChildren(_ value: TDataCore, at idx: Int)
 
-    @objc(removeObjectFromToManyAtIndex:)
-    @NSManaged public func removeFromToMany(at idx: Int)
+    @objc(removeObjectFromChildrenAtIndex:)
+    @NSManaged public func removeFromChildren(at idx: Int)
 
-    @objc(insertToMany:atIndexes:)
-    @NSManaged public func insertIntoToMany(_ values: [TDataCore], at indexes: NSIndexSet)
+    @objc(insertChildren:atIndexes:)
+    @NSManaged public func insertIntoChildren(_ values: [TDataCore], at indexes: NSIndexSet)
 
-    @objc(removeToManyAtIndexes:)
-    @NSManaged public func removeFromToMany(at indexes: NSIndexSet)
+    @objc(removeChildrenAtIndexes:)
+    @NSManaged public func removeFromChildren(at indexes: NSIndexSet)
 
-    @objc(replaceObjectInToManyAtIndex:withObject:)
-    @NSManaged public func replaceToMany(at idx: Int, with value: TDataCore)
+    @objc(replaceObjectInChildrenAtIndex:withObject:)
+    @NSManaged public func replaceChildren(at idx: Int, with value: TDataCore)
 
-    @objc(replaceToManyAtIndexes:withToMany:)
-    @NSManaged public func replaceToMany(at indexes: NSIndexSet, with values: [TDataCore])
+    @objc(replaceChildrenAtIndexes:withChildren:)
+    @NSManaged public func replaceChildren(at indexes: NSIndexSet, with values: [TDataCore])
 
-    @objc(addToManyObject:)
-    @NSManaged public func addToToMany(_ value: TDataCore)
+    @objc(addChildrenObject:)
+    @NSManaged public func addToChildren(_ value: TDataCore)
 
-    @objc(removeToManyObject:)
-    @NSManaged public func removeFromToMany(_ value: TDataCore)
+    @objc(removeChildrenObject:)
+    @NSManaged public func removeFromChildren(_ value: TDataCore)
 
-    @objc(addToMany:)
-    @NSManaged public func addToToMany(_ values: NSOrderedSet)
+    @objc(addChildren:)
+    @NSManaged public func addToChildren(_ values: NSOrderedSet)
 
-    @objc(removeToMany:)
-    @NSManaged public func removeFromToMany(_ values: NSOrderedSet)
+    @objc(removeChildren:)
+    @NSManaged public func removeFromChildren(_ values: NSOrderedSet)
+
+}
+
+// MARK: Generated accessors for parents
+extension TDataCore {
+
+    @objc(insertObject:inParentsAtIndex:)
+    @NSManaged public func insertIntoParents(_ value: TDataCore, at idx: Int)
+
+    @objc(removeObjectFromParentsAtIndex:)
+    @NSManaged public func removeFromParents(at idx: Int)
+
+    @objc(insertParents:atIndexes:)
+    @NSManaged public func insertIntoParents(_ values: [TDataCore], at indexes: NSIndexSet)
+
+    @objc(removeParentsAtIndexes:)
+    @NSManaged public func removeFromParents(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInParentsAtIndex:withObject:)
+    @NSManaged public func replaceParents(at idx: Int, with value: TDataCore)
+
+    @objc(replaceParentsAtIndexes:withParents:)
+    @NSManaged public func replaceParents(at indexes: NSIndexSet, with values: [TDataCore])
+
+    @objc(addParentsObject:)
+    @NSManaged public func addToParents(_ value: TDataCore)
+
+    @objc(removeParentsObject:)
+    @NSManaged public func removeFromParents(_ value: TDataCore)
+
+    @objc(addParents:)
+    @NSManaged public func addToParents(_ values: NSOrderedSet)
+
+    @objc(removeParents:)
+    @NSManaged public func removeFromParents(_ values: NSOrderedSet)
 
 }
 

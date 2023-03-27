@@ -13,12 +13,14 @@ struct DatabaseHelper{
     //@Environment(\.managedObjectContext) var context
     var context = PersistenceController.shared.container.viewContext
     static var shared = DatabaseHelper()
-    func saveOption(text:String, parent:TDataCore? = nil) -> TDataCore{
+    func saveOption(text:String, parents:[TDataCore]? = nil) -> TDataCore{
         let obj = NSEntityDescription.insertNewObject(forEntityName: "TDataCore", into: context) as! TDataCore
         obj.text = text
-        if(parent != nil){
-            obj.toOne = parent
-            parent?.addToToMany(obj)
+        if(parents != nil){
+            for i in parents!{
+                i.addToChildren(obj)
+                obj.addToParents(i)
+            }
             
         }
         do{

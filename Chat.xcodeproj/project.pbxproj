@@ -41,9 +41,10 @@
 		524D614B29C9C3A10036F9F1 /* AllChats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524D614A29C9C3A10036F9F1 /* AllChats.swift */; };
 		5270234E29CD6F9000457D26 /* OptionsMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5270234D29CD6F9000457D26 /* OptionsMenuModel.swift */; };
 		5270235029CD747000457D26 /* ChatMainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5270234F29CD747000457D26 /* ChatMainModel.swift */; };
-		5291667B29CDAD13008ED95E /* TDataCore+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291667929CDAD13008ED95E /* TDataCore+CoreDataClass.swift */; };
-		5291667C29CDAD13008ED95E /* TDataCore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291667A29CDAD13008ED95E /* TDataCore+CoreDataProperties.swift */; };
 		5291667E29CDAE03008ED95E /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291667D29CDAE03008ED95E /* OptionCell.swift */; };
+		52FA1E2E29D1902000AFEF7F /* AllChatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FA1E2D29D1902000AFEF7F /* AllChatsCell.swift */; };
+		52FA1E3129D1986F00AFEF7F /* TDataCore+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FA1E2F29D1986F00AFEF7F /* TDataCore+CoreDataClass.swift */; };
+		52FA1E3229D1986F00AFEF7F /* TDataCore+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FA1E3029D1986F00AFEF7F /* TDataCore+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,9 +102,10 @@
 		524D614A29C9C3A10036F9F1 /* AllChats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllChats.swift; sourceTree = "<group>"; };
 		5270234D29CD6F9000457D26 /* OptionsMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsMenuModel.swift; sourceTree = "<group>"; };
 		5270234F29CD747000457D26 /* ChatMainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMainModel.swift; sourceTree = "<group>"; };
-		5291667929CDAD13008ED95E /* TDataCore+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TDataCore+CoreDataClass.swift"; sourceTree = "<group>"; };
-		5291667A29CDAD13008ED95E /* TDataCore+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TDataCore+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5291667D29CDAE03008ED95E /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
+		52FA1E2D29D1902000AFEF7F /* AllChatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllChatsCell.swift; sourceTree = "<group>"; };
+		52FA1E2F29D1986F00AFEF7F /* TDataCore+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TDataCore+CoreDataClass.swift"; sourceTree = "<group>"; };
+		52FA1E3029D1986F00AFEF7F /* TDataCore+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TDataCore+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,7 +166,7 @@
 				522E3B2429C8771C00444254 /* SignUp.swift */,
 				524D614A29C9C3A10036F9F1 /* AllChats.swift */,
 				5228C79229CC73DE00C6859F /* Temp.swift */,
-				5291667D29CDAE03008ED95E /* OptionCell.swift */,
+				523E1FE4406D381E00EB1E27 /* OptionsMenu.swift */,
 				523E1FE8406D381E00EB1E27 /* ChatMain.swift */,
 				522E3AEF29C86F8000444254 /* ContentView.swift */,
 				522E3AF629C86F8200444254 /* Persistence.swift */,
@@ -215,8 +217,9 @@
 		5232E74329D14DB3003CFCE4 /* CustomComponents */ = {
 			isa = PBXGroup;
 			children = (
-				523E1FE4406D381E00EB1E27 /* OptionsMenu.swift */,
 				5228C79029CC495500C6859F /* ChatCell.swift */,
+				52FA1E2D29D1902000AFEF7F /* AllChatsCell.swift */,
+				5291667D29CDAE03008ED95E /* OptionCell.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -243,8 +246,8 @@
 				523E1FE2406D381E00EB1E27 /* ChatApi.swift */,
 				524D614229C96F8C0036F9F1 /* WebSocket.swift */,
 				5228C79429CC781A00C6859F /* DatabaseHelper.swift */,
-				5291667929CDAD13008ED95E /* TDataCore+CoreDataClass.swift */,
-				5291667A29CDAD13008ED95E /* TDataCore+CoreDataProperties.swift */,
+				52FA1E2F29D1986F00AFEF7F /* TDataCore+CoreDataClass.swift */,
+				52FA1E3029D1986F00AFEF7F /* TDataCore+CoreDataProperties.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -381,7 +384,9 @@
 			files = (
 				523E1FE3406D381E00EB1E27 /* ChatApi.swift in Sources */,
 				522FBDFE406FDB7400A23A97 /* AllChatsModel.swift in Sources */,
+				52FA1E3229D1986F00AFEF7F /* TDataCore+CoreDataProperties.swift in Sources */,
 				522E3B2129C875C700444254 /* CustomTextField.swift in Sources */,
+				52FA1E2E29D1902000AFEF7F /* AllChatsCell.swift in Sources */,
 				523E1FE7406D381E00EB1E27 /* ChatModel.swift in Sources */,
 				5291667E29CDAE03008ED95E /* OptionCell.swift in Sources */,
 				523E1FDF406D381E00EB1E27 /* UserApi.swift in Sources */,
@@ -397,18 +402,17 @@
 				524D614529C96FBF0036F9F1 /* UserModel.swift in Sources */,
 				522FBDFC406FDB7400A23A97 /* SignUpModel.swift in Sources */,
 				5228C79329CC73DE00C6859F /* Temp.swift in Sources */,
+				52FA1E3129D1986F00AFEF7F /* TDataCore+CoreDataClass.swift in Sources */,
 				522E3B2329C8761B00444254 /* LoadingScreen.swift in Sources */,
 				5228C79129CC495500C6859F /* ChatCell.swift in Sources */,
 				522FD63C29C8B9430022D952 /* LogIn.swift in Sources */,
 				522E3B2729C8799900444254 /* CustomPrimaryButton.swift in Sources */,
 				522E3AF029C86F8000444254 /* ContentView.swift in Sources */,
 				5270234E29CD6F9000457D26 /* OptionsMenuModel.swift in Sources */,
-				5291667C29CDAD13008ED95E /* TDataCore+CoreDataProperties.swift in Sources */,
 				523E1FEB406D381E00EB1E27 /* MessageModel.swift in Sources */,
 				522FBDFA406FDB7400A23A97 /* LoginModel.swift in Sources */,
 				522E3B1F29C874E900444254 /* Common.swift in Sources */,
 				522E3B2529C8771C00444254 /* SignUp.swift in Sources */,
-				5291667B29CDAD13008ED95E /* TDataCore+CoreDataClass.swift in Sources */,
 				524D614729C9A6380036F9F1 /* CustomDynamicButton.swift in Sources */,
 				522E3AEE29C86F8000444254 /* ChatApp.swift in Sources */,
 			);

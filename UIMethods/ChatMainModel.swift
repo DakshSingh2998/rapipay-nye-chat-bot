@@ -20,4 +20,28 @@ class ChatMainModel{
 
         return convertDateFormatter.string(from: date)
     }
+    func sendMessage(chatModel:ChatModel, textInTf:String, completition: ((String?) -> ())?){
+        var userName = UserDefaults.standard.value(forKey: "user") as! String
+        var pass = UserDefaults.standard.value(forKey: "pass") as! String
+        ChatApi.shared.sendMessage(userName: userName, pass: pass, chatId: chatModel.id, text: textInTf, completition: {data, error in
+            guard let data = data as? [String: Any] else {
+                completition?((error as! Error).localizedDescription)
+                return
+            }
+            completition?(nil)
+            
+            
+        })
+    }
+    
+    
+    func typingChange(lastTextInTf:String, textInTf:String, chatModel:ChatModel){
+        if(lastTextInTf != textInTf){
+            var userName = UserDefaults.standard.value(forKey: "user") as! String
+            var pass = UserDefaults.standard.value(forKey: "pass") as! String
+            ChatApi.shared.sendTyping(userName: userName, pass: pass, chatId: chatModel.id, completition: {_,_ in
+            })
+        }
+        
+    }
 }
