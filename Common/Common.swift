@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 class Common{
     static var shared = Common()
     var privateKey = "9240f674-4630-4cad-819e-fd7c065b80cd"
@@ -71,4 +72,17 @@ class Common{
             return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: password)
     }
     
+}
+extension View{
+    func upperCurve(_ radius: CGFloat, corners: UIRectCorner) -> some View{
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+struct RoundedCorner:Shape{
+    var radius:CGFloat = . infinity
+    var corners: UIRectCorner = .allCorners
+    func path(in rect: CGRect) -> Path{
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
 }

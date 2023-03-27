@@ -68,8 +68,8 @@ struct ChatCell: View {
                     }
                 }
             )
-            .cornerRadius(10)
-            .padding(.horizontal, 10)
+            
+            //.padding(.horizontal, 10)
     }
 }
 
