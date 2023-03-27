@@ -157,16 +157,15 @@
 		522E3AEC29C86F8000444254 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				5232E74329D14DB3003CFCE4 /* CustomComponents */,
 				522E3AED29C86F8000444254 /* ChatApp.swift */,
 				522E3B2229C8761B00444254 /* LoadingScreen.swift */,
 				522FD63B29C8B9430022D952 /* LogIn.swift */,
 				522E3B2429C8771C00444254 /* SignUp.swift */,
 				524D614A29C9C3A10036F9F1 /* AllChats.swift */,
 				5228C79229CC73DE00C6859F /* Temp.swift */,
-				523E1FE4406D381E00EB1E27 /* OptionsMenu.swift */,
 				5291667D29CDAE03008ED95E /* OptionCell.swift */,
 				523E1FE8406D381E00EB1E27 /* ChatMain.swift */,
-				5228C79029CC495500C6859F /* ChatCell.swift */,
 				522E3AEF29C86F8000444254 /* ContentView.swift */,
 				522E3AF629C86F8200444254 /* Persistence.swift */,
 				522E3AF129C86F8200444254 /* Assets.xcassets */,
@@ -211,6 +210,15 @@
 				5270234F29CD747000457D26 /* ChatMainModel.swift */,
 			);
 			path = UIMethods;
+			sourceTree = "<group>";
+		};
+		5232E74329D14DB3003CFCE4 /* CustomComponents */ = {
+			isa = PBXGroup;
+			children = (
+				523E1FE4406D381E00EB1E27 /* OptionsMenu.swift */,
+				5228C79029CC495500C6859F /* ChatCell.swift */,
+			);
+			path = CustomComponents;
 			sourceTree = "<group>";
 		};
 		523E1FE0406D381E00EB1E27 /* DataModel */ = {

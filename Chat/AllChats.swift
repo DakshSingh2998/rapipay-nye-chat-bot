@@ -54,7 +54,7 @@ struct AllChats: View {
         
         .onAppear(){
             AllChatsModel.shared.getChats(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, completition: {allChats, error in
-                if(error != nil){
+                if(error != nil || allChats == nil){
                     alertText = error!
                     showAlert = true
                     return

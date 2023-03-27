@@ -13,7 +13,7 @@ class AllChatsModel{
         ChatApi.shared.getChats(userName: userName, pass: pass, completition: {data, error in
             var allChats:[ChatModel]
             guard let data = data as? [[String: Any]] else {
-                completition?(nil, (error as! Error) as! String)
+                completition?(nil, (error as? Error) as? String)
                 return
             }
             allChats = data.map{

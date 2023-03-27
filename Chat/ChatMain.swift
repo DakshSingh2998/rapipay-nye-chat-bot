@@ -35,6 +35,7 @@ struct ChatMain: View {
                 List(0..<websocket.messages.count, id: \.self){ idx in
                     VStack{
                         if(websocket.messages[idx].sender_username == userModel?.userName){
+                            
                             HStack{
                                 Spacer(minLength: 64)
                                 ChatCell(messageModel: websocket.messages[idx])
@@ -48,8 +49,12 @@ struct ChatMain: View {
                             
                         }
                     }
-                    
-                }
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listSectionSeparator(.hidden)
+                }.listStyle(.plain)
+                    .padding(.horizontal, -20)
+                
                 Spacer()
                 TextField("Enter :)", text: $textInTf, onCommit: {
                     sendMessage()
