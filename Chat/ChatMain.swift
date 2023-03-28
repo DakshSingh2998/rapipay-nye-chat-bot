@@ -65,7 +65,7 @@ struct ChatMain: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 textInTfFocused = true
                 self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-                        ChatMainModel.shared.typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
+                        ChatMainModel().typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
                         lastTextInTf = textInTf.value
                         })
             })
@@ -231,16 +231,23 @@ struct ChatMain: View {
             }
             .frame(maxWidth: .infinity)
             CustomTextField(defaultplaceholder: "Message", vm: textInTf, width: $tfWidth, isInCorrect: $isTextIncorrect, commitClosure: {
-                ChatMainModel.shared.sendMessage(chatModel: chatModel!, textInTf: textInTf.value, completition: { error in
+                if(textInTf.value == ""){
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {
+                        textInTfFocused = true
+                    })
+                    return
+                }
+                var tempTextInTf = textInTf.value
+                textInTf.value = ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {
+                    textInTfFocused = true
+                })
+                ChatMainModel.shared.sendMessage(chatModel: chatModel!, textInTf: tempTextInTf, completition: { error in
                     if(error != nil){
                         alertText = error!
                         showAlert = true
                         return
                     }
-                    textInTf.value = ""
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
-                        textInTfFocused = true
-                    })
                     
                     
                 })

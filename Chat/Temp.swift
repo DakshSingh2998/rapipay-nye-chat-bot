@@ -44,7 +44,7 @@ struct Temp{
         parents.append(savedOption["Login to NYE Banking App"]!)
         savedOption["Testing"] = DatabaseHelper.shared.saveOption(text: "Testing", parents: parents)
         
-        */
+         */
          
     }
 }
