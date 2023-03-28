@@ -35,9 +35,10 @@ class Websocket:ObservableObject {
     
     private func receiveMessage() {
         webSocketTask?.receive { result in
+            print(result)
             switch result {
             case .failure(let error):
-                //print("rrr", error.localizedDescription)
+                print("rrr", error.localizedDescription)
                 self.connect(chatModel: self.chatModel)
                 return
                 //self.webSocketTask?.resume()
