@@ -64,12 +64,10 @@ struct ChatMain: View {
         .onAppear(){
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 textInTfFocused = true
-                /*
-                self.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { _ in
-                    
-                    //lastTextInTf = textInTf.value
-                    })
-                 */
+                self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+                        ChatMainModel.shared.typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
+                        lastTextInTf = textInTf.value
+                        })
             })
             for i in chatModel!.people{
                 if((i["person"] as! [String:Any])["username"]as! String != userModel?.userName){
@@ -148,14 +146,14 @@ struct ChatMain: View {
                         .padding(.bottom, 8)
 
                         .onChange(of: websocket.time, perform: {newVal in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
-                                if(websocket.time <= .now()){
-                                    websocket.userTyping = ""
-                                    websocket.lastTyping = ""
-                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                                    if(websocket.time <= .now()){
+                                        websocket.userTyping = ""
+                                        websocket.lastTyping = ""
+                                    }
+                                })
+                                
                             })
-                            
-                        })
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.trailing, 52)
@@ -181,7 +179,7 @@ struct ChatMain: View {
                             Spacer(minLength: 64)
                             ChatCell(messageModel: websocket.messages[idx])
                             
-                                .upperCurve(10, corners: [.topLeft, .bottomLeft, .bottomRight])
+                                .upperCurve(20, corners: [.topLeft, .bottomLeft, .bottomRight])
                             Image(systemName: "arrowtriangle.forward.fill")
                                 .foregroundColor(Color("LightGrey"))
                                 .padding(.top, 0)
@@ -193,7 +191,7 @@ struct ChatMain: View {
                                 .foregroundColor(Color("LightGrey"))
                                 .padding(.top, 0)
                             ChatCell(messageModel: websocket.messages[idx])
-                                .upperCurve(10, corners: [.topRight, .bottomLeft, .bottomRight])
+                                .upperCurve(20, corners: [.topRight, .bottomLeft, .bottomRight])
                             Spacer(minLength: 64)
                         }
                         
