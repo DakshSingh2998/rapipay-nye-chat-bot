@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AllChats: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var ONPAGE:Double
     @Binding var userModel:UserModel?
     @State var gotoOptionsMenu = false
@@ -40,6 +41,7 @@ struct AllChats: View {
                     .clipShape(Circle())
                     .padding(.trailing, 16)
                     .onTapGesture {
+                        ONPAGE = 2.1
                         gotoOptionsMenu = true
                     }
             }
@@ -56,7 +58,13 @@ struct AllChats: View {
         .onAppear(){
             AllChatsModel.shared.getChats(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, completition: {allChats, error in
                 if(error != nil || allChats == nil){
-                    alertText = error!
+                    if(error != nil){
+                        alertText = error!
+                    }
+                    else{
+                        alertText = "Unknown Error"
+                    }
+                    
                     showAlert = true
                     return
                 }
@@ -71,6 +79,17 @@ struct AllChats: View {
             })
         }
         .navigationTitle("Chats")
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing, content: {
+                Button("LogOut"){
+                    UserDefaults.standard.removeObject(forKey: "pass")
+                    UserDefaults.standard.removeObject(forKey: "user")
+                    
+                    ONPAGE = 1.0
+                }
+            })
+        })
+        
 
     }
     func generateList() -> some View{
@@ -91,6 +110,7 @@ struct AllChats: View {
             
             .onTapGesture {
                 chatModel = allChats[idx]
+                ONPAGE = 3.0
                 gotoChatMain = true
             }
             

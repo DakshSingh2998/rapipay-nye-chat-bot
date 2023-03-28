@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ChatMain: View {
+    @Environment(\.dismiss) var dismiss
+
     @Binding var ONPAGE:Double
     @Binding var userModel:UserModel?
     @Binding var chatModel:ChatModel?
@@ -42,6 +44,17 @@ struct ChatMain: View {
         }
             .navigationTitle("Customer Care")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar(content: {
+                ToolbarItem(placement: .navigationBarTrailing, content: {
+                    Button("LogOut"){
+                        UserDefaults.standard.removeObject(forKey: "pass")
+                        UserDefaults.standard.removeObject(forKey: "user")
+                        
+                        ONPAGE = 1.0
+                    }
+                })
+            })
+            
         
         .alert(alertText, isPresented: $showAlert, actions: {
             Button("OK", role: .cancel, action: {
@@ -61,7 +74,9 @@ struct ChatMain: View {
                 }
             }
              
-            var userName = UserDefaults.standard.value(forKey: "user") as! String
+            guard let userName = UserDefaults.standard.value(forKey: "user") as? String else{
+                return
+            }
             var pass = UserDefaults.standard.value(forKey: "pass") as! String
             
             ChatApi.shared.getMessages(userName: userName, pass: pass, chatId: chatModel!.id, completition: {data, error in

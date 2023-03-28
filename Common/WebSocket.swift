@@ -68,7 +68,7 @@ class Websocket:ObservableObject {
                         guard let data2 = data2["data"] as? [String:Any] else{
                             break
                         }
-                        DispatchQueue.global(qos: .userInitiated).async {
+                        DispatchQueue.main.async {
                             if(self.userTyping != "" &&  self.lastTyping != data2["person"] as! String){
                                 self.userTyping = "Both"
                             }

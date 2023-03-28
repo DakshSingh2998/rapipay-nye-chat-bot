@@ -9,20 +9,44 @@ import SwiftUI
 
 struct LoadingScreen: View {
     @State var ONPAGE:Double = 0.0
+    @State var userModel:UserModel?
     var body: some View{
         ZStack{
             NavigationView{
                 if(ONPAGE == 0.0){
                     ProgressView()
                 }
+                else if( ONPAGE < 2.0){
+                    LogIn(ONPAGE: $ONPAGE, userModel: $userModel)
+                }
                 else{
-                    LogIn(ONPAGE: $ONPAGE)
+                    AllChats(ONPAGE: $ONPAGE, userModel: $userModel)
                 }
             }
         }
         .onAppear(){
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-                ONPAGE = 1.0
+                let userName = UserDefaults.standard.value(forKey: "user") as? String
+                let pass = UserDefaults.standard.value(forKey: "pass") as? String
+                if(userName == nil){
+                    ONPAGE = 1.0
+                }
+                else{
+                    LoginModel.shared.getUser(tempUser: userName!, tempPass: pass!, completition: { userModel, error in
+                        if(userModel == nil && error != nil){
+                            ONPAGE = 1.0
+                            return
+                        }
+                        else if(userModel == nil && error == nil){
+                            ONPAGE = 1.0
+                            return
+                        }
+                        self.userModel = userModel
+                        ONPAGE = 2.0
+                        
+                    })
+                }
+                
             })
         }
         .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)){_ in

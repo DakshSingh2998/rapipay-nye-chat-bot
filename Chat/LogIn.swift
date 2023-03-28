@@ -25,7 +25,7 @@ struct LogIn: View {
     @State var isUserNameIncorrect = false
     @State var CustomNavitaionTitle = "Log In"
     @State var gotoSignUp : Bool = false
-    @State var userModel:UserModel?
+    @Binding var userModel:UserModel?
     @State var signUp:SignUp?
     @State var commonAlert = ""
     @State var showCommonAlert = false
@@ -67,6 +67,7 @@ struct LogIn: View {
                     }.padding(.top, 32)
                     
                     CustomPrimaryButton(title: "Create Account"){
+                        ONPAGE = 1.1
                         gotoSignUp = true
                         
                     }.padding(.top, 32)
@@ -97,7 +98,6 @@ struct LogIn: View {
                         }
                     }
                     .frame(minHeight: self.height - self.height/3)
-                    //.navigationBarHidden(true)
             }
             .opacity(backgroundOpacity)
             .padding(.top, 80)
@@ -109,9 +109,11 @@ struct LogIn: View {
             }
         }
         .navigationTitle("LogIn")
-        
-        //.overlay(CustomNavigation(title: $CustomNavitaionTitle, ONPAGE: $ONPAGE, rightImage: ""))
-            
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing, content: {
+                
+            })
+        })
             .onAppear(){
                 signUp = SignUp(ONPAGE: $ONPAGE)
                 allChats = AllChats(ONPAGE: $ONPAGE, userModel: $userModel)
@@ -143,7 +145,7 @@ struct LogIn: View {
                 return
             }
             self.userModel = userModel
-            gotoAllChats = true
+            ONPAGE = 2.0
             
         })
     }

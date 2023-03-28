@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct OptionsMenu: View {
+    @Environment(\.dismiss) var dismiss
+
     @Binding var ONPAGE: Double
     @Binding var userModel:UserModel?
     @State var gotoChatMain = false
@@ -28,9 +30,11 @@ struct OptionsMenu: View {
                             HStack{
                                 Spacer()
                                 Text(previousOption[idx])
+                                    .lineLimit(100)
                                     .font(.system(size: 16))
                                     .bold()
                                     .padding(.all, 10)
+                                    
                                 //.border(Color("Blue"))
                                     .cornerRadius(10)
                                     .background(Color("Blue"))
@@ -56,8 +60,9 @@ struct OptionsMenu: View {
                                 EmptyView()
                             }
                         }
+                        .frame(maxWidth: .infinity)
                         .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
+                        //.listRowSeparator(.hidden)
                         .listSectionSeparator(.hidden)
                         .frame(maxHeight: .infinity)
                     }
@@ -71,6 +76,20 @@ struct OptionsMenu: View {
             //}
             NavigationLink("ChatMain", destination: ChatMain(ONPAGE: $ONPAGE, userModel: $userModel, chatModel: $chatModel), isActive: $gotoChatMain).hidden()
         }
+        .navigationTitle("Help")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar(content: {
+            ToolbarItem(placement: .navigationBarTrailing, content: {
+                Button("LogOut"){
+                    UserDefaults.standard.removeObject(forKey: "pass")
+                    UserDefaults.standard.removeObject(forKey: "user")
+                    
+                    ONPAGE = 1.0
+                }
+            })
+        })
+        
+        
         .alert(alertText, isPresented: $showAlert, actions: {
             Button("OK", role: .cancel, action: {
                 showAlert = false

@@ -155,6 +155,7 @@ struct SignUp: View {
             .alert(alertText, isPresented: $successfulSignup, actions: {
                 Button("LOGIN", role: .cancel, action: {
                     successfulSignup = false
+                    ONPAGE = 1.0
                     try? dismiss()
                 })
             })
