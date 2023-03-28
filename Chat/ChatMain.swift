@@ -26,6 +26,7 @@ struct ChatMain: View {
     @ObservedObject var textInTf = TextModel()
     @State var agentName = ""
     @State var topPadding:CGFloat = -32
+    @State var message_queue:[String] = []
 
     var body: some View {
             
@@ -238,19 +239,16 @@ struct ChatMain: View {
                     return
                 }
                 var tempTextInTf = textInTf.value
+                message_queue.append(tempTextInTf)
                 textInTf.value = ""
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {
                     textInTfFocused = true
                 })
-                ChatMainModel.shared.sendMessage(chatModel: chatModel!, textInTf: tempTextInTf, completition: { error in
-                    if(error != nil){
-                        alertText = error!
-                        showAlert = true
-                        return
-                    }
-                    
-                    
-                })
+                if(message_queue.count != 1){
+                    return
+                }
+                
+                send_Message()
             })
             .focused($textInTfFocused)
             .padding(.leading, 16)
@@ -265,6 +263,25 @@ struct ChatMain: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color("LightGrey"))
+    }
+    
+    func send_Message(){
+        if(message_queue.count < 1){
+            return
+        }
+        ChatMainModel.shared.sendMessage(chatModel: chatModel!, textInTf: message_queue[0], completition: { error in
+            message_queue.remove(at: 0)
+            send_Message()
+            /*
+            if(error != nil){
+                alertText = error!
+                showAlert = true
+                return
+            }
+             */
+            
+            
+        })
     }
 }
 

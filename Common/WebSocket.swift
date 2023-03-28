@@ -13,8 +13,10 @@ class Websocket:ObservableObject {
     @Published var userTyping = ""
     @Published var lastTyping = ""
     @Published var time = DispatchTime.now()
+    @State var chatModel = ChatModel(data: [:])
     
     func connect(chatModel:ChatModel?) {
+        self.chatModel = chatModel!
         guard let url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatModel!.id)&accessKey=\(chatModel!.access_key)") else { return }
         let request = URLRequest(url: url)
         self.webSocketTask = URLSession.shared.webSocketTask(with: request)
@@ -36,7 +38,7 @@ class Websocket:ObservableObject {
             switch result {
             case .failure(let error):
                 //print("rrr", error.localizedDescription)
-                self.webSocketTask?.resume()
+                self.connect(chatModel: self.chatModel)
                 return
                 //self.webSocketTask?.resume()
             case .success(let message):
