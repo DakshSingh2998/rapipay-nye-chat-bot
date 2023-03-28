@@ -220,6 +220,9 @@
 				5228C79029CC495500C6859F /* ChatCell.swift */,
 				52FA1E2D29D1902000AFEF7F /* AllChatsCell.swift */,
 				5291667D29CDAE03008ED95E /* OptionCell.swift */,
+				522E3B2029C875C700444254 /* CustomTextField.swift */,
+				522E3B2629C8799900444254 /* CustomPrimaryButton.swift */,
+				524D614629C9A6380036F9F1 /* CustomDynamicButton.swift */,
 			);
 			path = CustomComponents;
 			sourceTree = "<group>";
@@ -239,9 +242,6 @@
 			children = (
 				522E3B1E29C874E900444254 /* Common.swift */,
 				522E3B1C29C8720F00444254 /* NetworkManager.swift */,
-				522E3B2029C875C700444254 /* CustomTextField.swift */,
-				522E3B2629C8799900444254 /* CustomPrimaryButton.swift */,
-				524D614629C9A6380036F9F1 /* CustomDynamicButton.swift */,
 				523E1FDE406D381E00EB1E27 /* UserApi.swift */,
 				523E1FE2406D381E00EB1E27 /* ChatApi.swift */,
 				524D614229C96F8C0036F9F1 /* WebSocket.swift */,

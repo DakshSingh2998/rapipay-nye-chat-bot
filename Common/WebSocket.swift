@@ -77,7 +77,7 @@ class Websocket:ObservableObject {
                             }
                             self.lastTyping = data2["person"] as! String
                             
-                            self.time = .now() + 2
+                            self.time = .now()
                         }
                         
                     }

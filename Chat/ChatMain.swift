@@ -42,7 +42,7 @@ struct ChatMain: View {
             //.background(Color.blue)
             
         }
-            .navigationTitle("Customer Care")
+            .navigationTitle(chatModel?.title ?? "Customer Care")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(content: {
                 ToolbarItem(placement: .navigationBarTrailing, content: {
@@ -62,11 +62,14 @@ struct ChatMain: View {
             })
         })
         .onAppear(){
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-                    ChatMainModel.shared.typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
-                    lastTextInTf = textInTf.value
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                textInTfFocused = true
+                /*
+                self.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { _ in
+                    
+                    //lastTextInTf = textInTf.value
                     })
+                 */
             })
             for i in chatModel!.people{
                 if((i["person"] as! [String:Any])["username"]as! String != userModel?.userName){
@@ -145,7 +148,7 @@ struct ChatMain: View {
                         .padding(.bottom, 8)
 
                         .onChange(of: websocket.time, perform: {newVal in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
                                 if(websocket.time <= .now()){
                                     websocket.userTyping = ""
                                     websocket.lastTyping = ""
@@ -246,7 +249,13 @@ struct ChatMain: View {
             })
             .focused($textInTfFocused)
             .padding(.leading, 16)
-            
+            .onChange(of: textInTf.value, perform: {
+                newVal in
+                if(chatModel != nil){
+                    ChatMainModel.shared.sendTyping(chatModel: chatModel!)
+                }
+                
+            })
             
         }
         .frame(maxWidth: .infinity)

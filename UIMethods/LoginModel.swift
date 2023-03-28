@@ -12,7 +12,12 @@ class LoginModel{
         UserApi.shared.getUser(userName: tempUser, pass: tempPass, completition: { data, error in
             var userModel:UserModel?
             guard let data = data as? [String: Any] else {
-                completition?(nil, error as! Error)
+                if(error != nil){
+                    completition?(nil, error as! Error)
+                }
+                else{
+                    completition?(nil, nil)
+                }
                 
                 return
             }

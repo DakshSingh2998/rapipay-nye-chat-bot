@@ -18,36 +18,35 @@ struct AllChats: View {
     @State var chatModel:ChatModel?
     @State var gotoChatMain = false
     @State var showUi = true
+    @State var apiLoaded = false
     var body: some View {
         ZStack(alignment: .bottomTrailing){
-            if(showUi == true){
+            if(apiLoaded == true){
                 VStack{
                     Spacer()
                     generateList()
-                    
-                    NavigationLink("OptionsMenu", destination: OptionsMenu(ONPAGE: $ONPAGE, userModel: $userModel), isActive: $gotoOptionsMenu)
-                        .hidden()
-                    NavigationLink("ChatMain", destination: ChatMain(ONPAGE: $ONPAGE, userModel: $userModel, chatModel: $chatModel), isActive: $gotoChatMain).hidden()
-                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.bottom, 64)
-                
-                Text("+")
-                    .font(Font(CTFont(.system, size: 32))).bold()
-                    .foregroundColor(Color("White"))
-                    .padding(32)
-                    .background(Color("Orange"))
-                    .clipShape(Circle())
-                    .padding(.trailing, 16)
-                    .onTapGesture {
-                        ONPAGE = 2.1
-                        gotoOptionsMenu = true
-                    }
             }
             else{
-                EmptyView()
+                ProgressView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+            NavigationLink("OptionsMenu", destination: OptionsMenu(ONPAGE: $ONPAGE, userModel: $userModel), isActive: $gotoOptionsMenu)
+                .hidden()
+            NavigationLink("ChatMain", destination: ChatMain(ONPAGE: $ONPAGE, userModel: $userModel, chatModel: $chatModel), isActive: $gotoChatMain).hidden()
+            Text("+")
+                .font(Font(CTFont(.system, size: 32))).bold()
+                .foregroundColor(Color("White"))
+                .padding(32)
+                .background(Color("Orange"))
+                .clipShape(Circle())
+                .padding(.trailing, 16)
+                .onTapGesture {
+                    ONPAGE = 2.1
+                    gotoOptionsMenu = true
+                }
         
         }.alert(alertText, isPresented: $showAlert, actions: {
             Button("OK", role: .cancel, action: {
@@ -56,13 +55,14 @@ struct AllChats: View {
         })
         
         .onAppear(){
+            apiLoaded = false
             AllChatsModel.shared.getChats(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, completition: {allChats, error in
                 if(error != nil || allChats == nil){
                     if(error != nil){
                         alertText = error!
                     }
                     else{
-                        alertText = "Unknown Error"
+                        alertText = "Network Error"
                     }
                     
                     showAlert = true
@@ -70,10 +70,7 @@ struct AllChats: View {
                 }
                 
                 self.allChats = allChats!
-                showUi = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
-                    showUi = true
-                })
+                apiLoaded = true
                 
                 
             })

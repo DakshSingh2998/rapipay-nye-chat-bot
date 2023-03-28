@@ -15,7 +15,13 @@ class OptionsMenuModel{
         
         UserApi.shared.getUsers(completition: {data, error in
             guard let data = data as? [[String:Any]] else{
-                completition?(nil, (error as! Error).localizedDescription)
+                if(error != nil){
+                    completition?(nil, (error as! Error).localizedDescription)
+                }
+                else{
+                    completition?(nil, "Api Error")
+                }
+                
                 return
             }
             var usersModel = data.map{UserModel(data: $0)}
@@ -29,7 +35,12 @@ class OptionsMenuModel{
             randAgent = usersModel[randomAgent]
             ChatApi.shared.createChat(userName: userName, pass: pass, previousOption: previousOption, userToAdd: randAgent!.userName, completition: {data, error in
                 guard let data = data as? [String: Any] else {
-                    completition?(nil, (error as! Error).localizedDescription)
+                    if(error != nil){
+                        completition?(nil, (error as! Error).localizedDescription)
+                    }
+                    else{
+                        completition?(nil, "Api Error")
+                    }
                     return
                 }
                 chatModel = ChatModel(data: data)

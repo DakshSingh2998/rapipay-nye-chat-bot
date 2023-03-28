@@ -223,10 +223,11 @@ struct SignUp: View {
             error in
             backgroundOpacity = 1.0
             if(error != nil){
-                commonAlert = error
+                commonAlert = error!
                 showCommonAlert = true
                 return
             }
+            
             alertText = "SignUp Successful :)"
             successfulSignup = true
             

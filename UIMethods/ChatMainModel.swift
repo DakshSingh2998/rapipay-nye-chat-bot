@@ -50,4 +50,13 @@ class ChatMainModel{
         }
         
     }
+    func sendTyping(chatModel:ChatModel){
+        
+        var userName = Common.shared.userDefaultName
+        var pass = Common.shared.userDefaultPass
+        ChatApi.shared.sendTyping(userName: userName, pass: pass, chatId: chatModel.id, completition: {_,_ in
+        })
+        
+        
+    }
 }

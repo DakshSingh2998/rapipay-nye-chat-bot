@@ -41,15 +41,21 @@ class SignUpModel{
         completition?(isUserNameIncorrect, isFirstNameIncorrect, isLastNameIncorrect, isPasswordIncorrect, signUpButtonEnabled)
     }
     
-    func createUser(vmUserName:String, vmFirstName:String, vmLastName:String, vmPassword:String, completition: ((String) -> ())?){
+    func createUser(vmUserName:String, vmFirstName:String, vmLastName:String, vmPassword:String, completition: ((String?) -> ())?){
         UserApi.shared.createUser( userName: vmUserName, firstName: vmFirstName, lastName: vmLastName, password: vmPassword, completition:{
             data, error in
                 guard let data = data as? [String: Any] else {
-                    completition?("\((error as! Error).localizedDescription)")
+                    if(error != nil){
+                        completition?("\((error as! Error).localizedDescription)")
+                    }
+                    else{
+                        completition?("Uknown Error")
+                    }
+                    
                     return
                 }
                 if(data["message"] != nil){
-                    completition?(data["message"] as! String)
+                    completition?(data["message"] as? String)
                     return
                 }
                 

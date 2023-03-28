@@ -28,7 +28,7 @@ struct LoadingScreen: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
                 let userName = UserDefaults.standard.value(forKey: "user") as? String
                 let pass = UserDefaults.standard.value(forKey: "pass") as? String
-                if(userName == nil){
+                if(userName == nil || pass == nil){
                     ONPAGE = 1.0
                 }
                 else{

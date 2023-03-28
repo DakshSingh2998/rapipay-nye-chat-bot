@@ -117,6 +117,8 @@ struct LogIn: View {
             .onAppear(){
                 signUp = SignUp(ONPAGE: $ONPAGE)
                 allChats = AllChats(ONPAGE: $ONPAGE, userModel: $userModel)
+                Common.shared.userDefaultPass = ""
+                Common.shared.userDefaultName = ""
                 vmUserName.value = "daksh2998"
                 vmPass.value = "Daksh@90"
                 var temp = Temp()
