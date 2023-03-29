@@ -13,20 +13,20 @@ class Websocket:ObservableObject {
     @Published var userTyping = ""
     @Published var lastTyping = ""
     @Published var time = DispatchTime.now()
-    @State var chatModel = ChatModel(data: [:])
-    @State var pingTimer:Timer?
-    @State var didLoad = false
-    @State var chatId:Int?
-    @State var accessKey:String?
+    @Published var chatModel = ChatModel(data: [:])
+    @Published var pingTimer:Timer?
+    @Published var didLoad = false
+    @Published var chatId:Int?
+    @Published var accessKey:String?
     
     func connect(chatModel:ChatModel?) {
-        if( didLoad == false){
+        if(didLoad == false){
             self.chatModel = chatModel!
-            chatId = chatModel?.id
-            accessKey = chatModel?.access_key
-            didLoad = true
+            self.chatId = chatModel?.id
+            self.accessKey = chatModel?.access_key
+            self.didLoad = true
         }
-        guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatId)&accessKey=\(accessKey)") else { return }
+        guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatId!)&accessKey=\(accessKey!)") else { return }
        
         
         let request = URLRequest(url: url)
