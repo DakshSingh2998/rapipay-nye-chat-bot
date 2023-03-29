@@ -139,16 +139,12 @@ struct ChatMain: View {
                             ChatCell(messageModel: websocket.messages[idx], bgColor: "Blue")
                             
                                 .upperCurve(20, corners: [.topLeft, .bottomLeft, .bottomRight])
-                            Image(systemName: "arrowtriangle.forward.fill")
-                                .foregroundColor(Color("LightGrey"))
-                                .padding(.top, 0)
+                            
                         }
                     }
                     else{
                         HStack(alignment: .top, spacing: -2){
-                            Image(systemName: "arrowtriangle.backward.fill")
-                                .foregroundColor(Color("LightGrey"))
-                                .padding(.top, 0)
+                            
                             ChatCell(messageModel: websocket.messages[idx], bgColor: "Orange")
                                 .upperCurve(20, corners: [.topRight, .bottomLeft, .bottomRight])
                             Spacer(minLength: 64)
@@ -156,6 +152,7 @@ struct ChatMain: View {
                         
                     }
                 }
+                .padding(.horizontal, 10)
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
                 .listSectionSeparator(.hidden)
