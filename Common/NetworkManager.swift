@@ -11,9 +11,9 @@ import SwiftUI
 struct NetworkManager{
     static var shared = NetworkManager()
     
-    func connect(parameters:String = "", url:String, httpMethod:String, setValue:[String:String], addValue:[String:String], completition: ((Any, Any) -> ())?){
+    func connect(parameters:String = "", url:String, httpMethod:String, setValue:[String:String], addValue:[String:String], timeOutInterval:Double = 60, completition: ((Any, Any) -> ())?){
         let postData = parameters.data(using: .utf8)
-        var request = URLRequest(url: URL(string: url)!,timeoutInterval: TimeInterval(60))
+        var request = URLRequest(url: URL(string: url)!,timeoutInterval: TimeInterval(timeOutInterval))
         for i in Array(setValue.keys){
             request.setValue(setValue[i], forHTTPHeaderField: i)
         }

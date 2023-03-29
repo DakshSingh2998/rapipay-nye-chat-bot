@@ -14,6 +14,7 @@ class Websocket:ObservableObject {
     @Published var lastTyping = ""
     @Published var time = DispatchTime.now()
     @State var chatModel = ChatModel(data: [:])
+    @State var pingTimer:Timer?
     
     func connect(chatModel:ChatModel?) {
         self.chatModel = chatModel!
@@ -23,6 +24,9 @@ class Websocket:ObservableObject {
         
         webSocketTask?.resume()
         receiveMessage()
+        self.pingTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { _ in
+            self.ping()
+            })
     }
     func connect2() {
         guard let url = URL(string: "wss://api.chatengine.io/person/?publicKey=\(Common.shared.projectId)&username=\(Common.shared.userDefaultName)&secret=\(Common.shared.userDefaultPass)") else { return }
@@ -94,6 +98,14 @@ class Websocket:ObservableObject {
                 }
             }
             self.receiveMessage()
+        }
+    }
+    
+    func ping() {
+        webSocketTask!.sendPing { (error) in
+            if let error = error {
+                print("Ping failed: \(error)")
+            }
         }
     }
     

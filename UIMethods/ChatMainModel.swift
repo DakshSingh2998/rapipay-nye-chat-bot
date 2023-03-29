@@ -45,7 +45,7 @@ class ChatMainModel{
         if(lastTextInTf != textInTf){
             var userName = UserDefaults.standard.value(forKey: "user") as! String
             var pass = UserDefaults.standard.value(forKey: "pass") as! String
-            ChatApi().sendTyping(userName: userName, pass: pass, chatId: chatModel.id, completition: {_,_ in
+            ChatApi.shared.sendTyping(userName: userName, pass: pass, chatId: chatModel.id, completition: {_,_ in
             })
         }
         

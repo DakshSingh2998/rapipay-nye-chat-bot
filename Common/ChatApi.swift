@@ -8,7 +8,7 @@
 import Foundation
 class ChatApi{
     static var shared = ChatApi()
-    
+    var isTyping = false
     func getChats(userName:String, pass:String, completition: ((Any, Any) -> ())?){
         let url = "https://api.chatengine.io/chats/"
         let httpMethod = "GET"
@@ -55,14 +55,20 @@ class ChatApi{
             
         })
     }
-    func sendTyping(userName:String, pass:String, chatId:Int, completition: ((Any, Any) -> ())?){
+    func sendTyping(userName:String, pass:String, chatId:Int, completition: ((Any?, Any?) -> ())?){
+        if(isTyping == true){
+            completition?(nil, nil)
+            return
+        }
+        isTyping = true
         let url = "https://api.chatengine.io/chats/\(chatId)/typing/"
 
         let httpMethod = "POST"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
-        NetworkManager().connect(url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, completition: {data, error in
+        NetworkManager().connect(url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, timeOutInterval: 2, completition: {data, error in
             completition?(data, error)
+            self.isTyping = false
             
         })
     }

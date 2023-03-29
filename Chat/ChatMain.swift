@@ -94,34 +94,27 @@ struct ChatMain: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 32)
-                    .padding(.leading, 10)
+                Text(agentName)
+                    .bold()
                 Spacer()
-                VStack(alignment: .leading){
-                    Text(agentName)
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                    Text(websocket.userTyping == "" ? " " : "\(websocket.userTyping)  typing")
-                        .frame(maxWidth: .infinity)
-                        .padding(.bottom, 8)
-
-                        .onChange(of: websocket.time, perform: {newVal in
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                                    if(websocket.time <= .now()){
-                                        websocket.userTyping = ""
-                                        websocket.lastTyping = ""
-                                    }
-                                })
-                                
+                Text(websocket.userTyping == "" ? " " : "\(websocket.userTyping)  typing")
+                    
+                    .onChange(of: websocket.time, perform: {newVal in
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                                if(websocket.time <= .now()){
+                                    websocket.userTyping = ""
+                                    websocket.lastTyping = ""
+                                }
                             })
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.trailing, 52)
-                Spacer()
+                            
+                        })
+            
             }
+            .padding(.horizontal, 20)
             .frame(maxWidth: .infinity)
             
         }
-        .padding(.bottom, 4)
+        .padding(.bottom, 8)
         .frame(height: 32)
         .frame(maxWidth: .infinity)
         .background(Color("LightGrey"))
