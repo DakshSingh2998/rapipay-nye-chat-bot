@@ -56,7 +56,36 @@ class ChatMainModel{
         var pass = Common.shared.userDefaultPass
         ChatApi.shared.sendTyping(userName: userName, pass: pass, chatId: chatModel.id, completition: {_,_ in
         })
-        
-        
+    }
+    func setAgentName(chatModel:ChatModel, userModel:UserModel) -> String{
+        for i in chatModel.people{
+            if((i["person"] as! [String:Any])["username"]as! String != userModel.userName){
+                return (i["person"] as! [String:Any])["username"]as! String
+            }
+        }
+        return ""
+    }
+    func loadMessages(websocket: Websocket, chatModel:ChatModel, completition: ((String?) -> ())?){
+        var userName = Common.shared.userDefaultName
+        var pass = Common.shared.userDefaultPass
+        ChatApi.shared.getMessages(userName: userName, pass: pass, chatId: chatModel.id, completition: {data, error in
+            guard let data = data as? [[String: Any]] else {
+                if(error != nil){
+                    completition?((error as! Error).localizedDescription)
+                }
+                else{
+                    completition?("Api error")
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                websocket.messages = data.map{
+                    MessageModel(data: $0)
+                }
+                websocket.connect(chatModel: chatModel)
+            }
+            completition?(nil)
+            
+        })
     }
 }

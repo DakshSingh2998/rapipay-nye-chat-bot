@@ -11,6 +11,7 @@ struct ChatCell: View {
     @State var messageModel:MessageModel
     @State var textViewHeight:CGFloat = 0.0
     @State var textViewHeight2:CGFloat = 0.0
+    @State var bgColor = "LightGrey"
     let dateFormatter = ISO8601DateFormatter()
     var body: some View {
             VStack(alignment: .leading){
@@ -56,7 +57,7 @@ struct ChatCell: View {
             //.background()
             .background(
                 GeometryReader { proxy in
-                    Color("LightGrey")
+                    Color(bgColor)
                     .onAppear {
                         if(textViewHeight != 0){
                             return

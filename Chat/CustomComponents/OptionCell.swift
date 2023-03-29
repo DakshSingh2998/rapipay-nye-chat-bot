@@ -19,11 +19,11 @@ struct OptionCell: View {
                         .bold()
                         .padding(.all, 10)
                     //.border(Color("Blue"))
-                        .cornerRadius(10)
+                        .cornerRadius(20)
                         .background(Color("Orange"))
-                        .cornerRadius(10)
-                        .overlay{RoundedRectangle(cornerRadius: 10.0, style: .continuous).stroke( Color("Blue"), lineWidth: 2)}
-                        .cornerRadius(10)
+                        .cornerRadius(20)
+                        .overlay{RoundedRectangle(cornerRadius: 20.0, style: .continuous).stroke( Color("Blue"), lineWidth: 2)}
+                        .cornerRadius(20)
                         .onTapGesture {
                             completition?(curOption)
                         }
@@ -35,11 +35,11 @@ struct OptionCell: View {
                     .bold()
                     .padding(.all, 10)
                 //.border(Color("Blue"))
-                    .cornerRadius(10)
+                    .cornerRadius(20)
                     .background(Color("Orange"))
-                    .cornerRadius(10)
-                    .overlay{RoundedRectangle(cornerRadius: 10.0, style: .continuous).stroke( Color("Blue"), lineWidth: 2)}
-                    .cornerRadius(10)
+                    .cornerRadius(20)
+                    .overlay{RoundedRectangle(cornerRadius: 20.0, style: .continuous).stroke( Color("Blue"), lineWidth: 2)}
+                    .cornerRadius(20)
                     .onTapGesture {
                         completition?("Talk to Customer Care")
                     }

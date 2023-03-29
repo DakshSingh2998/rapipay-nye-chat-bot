@@ -25,11 +25,8 @@ struct ChatMain: View {
     @State var isTextIncorrect = false
     @ObservedObject var textInTf = TextModel()
     @State var agentName = ""
-    @State var topPadding:CGFloat = -32
     @State var message_queue:[String] = []
-
     var body: some View {
-            
             VStack(spacing: 0){
                 EmptyView()
                 upperUi()
@@ -38,10 +35,6 @@ struct ChatMain: View {
                 Spacer()
                 
                 bottomUi()
-                
-            
-            //.background(Color.blue)
-            
         }
             .navigationTitle(chatModel?.title ?? "Customer Care")
             .navigationBarTitleDisplayMode(.inline)
@@ -63,49 +56,21 @@ struct ChatMain: View {
             })
         })
         .onAppear(){
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
                 textInTfFocused = true
                 self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
-                        ChatMainModel().typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
-                        lastTextInTf = textInTf.value
-                        })
+                    ChatMainModel().typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
+                    lastTextInTf = textInTf.value
+                    })
             })
-            for i in chatModel!.people{
-                if((i["person"] as! [String:Any])["username"]as! String != userModel?.userName){
-                    agentName = (i["person"] as! [String:Any])["username"]as! String
-                }
-            }
-             
-            guard let userName = UserDefaults.standard.value(forKey: "user") as? String else{
-                return
-            }
-            var pass = UserDefaults.standard.value(forKey: "pass") as! String
-            
-            ChatApi.shared.getMessages(userName: userName, pass: pass, chatId: chatModel!.id, completition: {data, error in
-                guard let data = data as? [[String: Any]] else {
-                    alertText = (error as! Error).localizedDescription
+            agentName = ChatMainModel.shared.setAgentName(chatModel: chatModel!, userModel: userModel!)
+            ChatMainModel().loadMessages(websocket: websocket, chatModel:chatModel!, completition: { error in
+                if(error != nil){
+                    alertText = error!
                     showAlert = true
-                    return
-                }
-                DispatchQueue.main.async {
-                    websocket.messages = data.map{
-                        MessageModel(data: $0)
-                    }
-                    websocket.connect(chatModel: chatModel)
-                    
                 }
                 
             })
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-                if(Common.shared.currentOrientation == .portrait){
-                    topPadding = -42
-                }
-                else{
-                    topPadding = 0
-                }
-            })
-            
-            
             
         }
         .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)){_ in
@@ -117,13 +82,6 @@ struct ChatMain: View {
                 else{
                     self.tfWidth = Common.shared.width - 200
                 }
-                if(Common.shared.currentOrientation == .portrait){
-                    topPadding = -42
-                }
-                else{
-                    topPadding = 0
-                }
-                
                 self.height = Common.shared.height
             }
         }
@@ -178,7 +136,7 @@ struct ChatMain: View {
                         
                         HStack(alignment: .top, spacing: -2){
                             Spacer(minLength: 64)
-                            ChatCell(messageModel: websocket.messages[idx])
+                            ChatCell(messageModel: websocket.messages[idx], bgColor: "Blue")
                             
                                 .upperCurve(20, corners: [.topLeft, .bottomLeft, .bottomRight])
                             Image(systemName: "arrowtriangle.forward.fill")
@@ -191,7 +149,7 @@ struct ChatMain: View {
                             Image(systemName: "arrowtriangle.backward.fill")
                                 .foregroundColor(Color("LightGrey"))
                                 .padding(.top, 0)
-                            ChatCell(messageModel: websocket.messages[idx])
+                            ChatCell(messageModel: websocket.messages[idx], bgColor: "Orange")
                                 .upperCurve(20, corners: [.topRight, .bottomLeft, .bottomRight])
                             Spacer(minLength: 64)
                         }

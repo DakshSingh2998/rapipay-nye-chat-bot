@@ -45,7 +45,7 @@ struct AllChatsCell: View {
                 )
                 */
 
-                    Text(messageModel.text)
+                    Text("\(messageModel.text)")
                     .padding(.top, 0.5)
                         .lineLimit(100)
                         

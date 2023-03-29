@@ -93,17 +93,17 @@ struct AllChats: View {
         List(0..<allChats.count, id: \.self){idx in
             HStack{
                 AllChatsCell(messageModel: MessageModel(data: allChats[idx].last_message), chatModel: allChats[idx])
-                    .background(Color("LightGrey"))
+                    .background(Color("Blue"))
                     .frame(maxWidth: .infinity)
-                    .background(Color("LightGrey"))
+                    .background(Color("Blue"))
                 Text(">").bold()
                     .padding(.horizontal, 10)
             }
-            .cornerRadius(10)
-            .background(Color("LightGrey"))
-            .cornerRadius(10)
+            .cornerRadius(20)
+            .background(Color("Blue"))
+            .cornerRadius(20)
             .padding(.horizontal, 10)
-            .cornerRadius(10)
+            .cornerRadius(20)
             
             .onTapGesture {
                 chatModel = allChats[idx]

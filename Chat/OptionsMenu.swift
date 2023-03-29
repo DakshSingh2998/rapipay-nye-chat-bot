@@ -25,50 +25,7 @@ struct OptionsMenu: View {
         ZStack{
             //ScrollView{
                 VStack{
-                    List(0..<previousOption.count, id: \.self){idx in
-                        VStack(alignment: .leading){
-                            HStack{
-                                Spacer()
-                                Text(previousOption[idx])
-                                    .lineLimit(100)
-                                    .font(.system(size: 16))
-                                    .bold()
-                                    .padding(.all, 10)
-                                    
-                                //.border(Color("Blue"))
-                                    .cornerRadius(10)
-                                    .background(Color("Blue"))
-                                    .cornerRadius(10)
-                                    .overlay{RoundedRectangle(cornerRadius: 10.0, style: .continuous).stroke( Color("Orange"), lineWidth: 2)}
-                                    .cornerRadius(10)
-                            }
-                            
-                            if(idx == previousOption.count - 1){
-                                OptionCell(currentOptions: $currentOptions, completition: { clickedText in
-                                    if(clickedText == "Talk to Customer Care"){
-                                        createChat()
-                                        return
-                                    }
-                                    currentOptions = options[clickedText]!
-                                    previousOption.append(clickedText)
-                                    refreshOptions = false
-                                    refreshOptions = true
-                                })
-                                .frame(maxHeight: .infinity)
-                            }
-                            else{
-                                EmptyView()
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .listRowBackground(Color.clear)
-                        //.listRowSeparator(.hidden)
-                        .listSectionSeparator(.hidden)
-                        .frame(maxHeight: .infinity)
-                    }
-                    .listStyle(.plain)
-                        .padding(.horizontal, 0)
-                    .frame(maxHeight: .infinity)
+                    generateList()
                         
                     
                     
@@ -106,6 +63,55 @@ struct OptionsMenu: View {
             }
         }
     }
+    
+    func generateList()-> some View{
+        return
+        List(0..<previousOption.count, id: \.self){idx in
+            VStack(alignment: .leading){
+                HStack{
+                    Spacer()
+                    Text(previousOption[idx])
+                        .lineLimit(100)
+                        .font(.system(size: 16))
+                        .bold()
+                        .padding(.all, 10)
+                        
+                    //.border(Color("Blue"))
+                        .cornerRadius(10)
+                        .background(Color("Blue"))
+                        .cornerRadius(20)
+                        .overlay{RoundedRectangle(cornerRadius: 20.0, style: .continuous).stroke( Color("Orange"), lineWidth: 2)}
+                        .cornerRadius(20)
+                }
+                
+                if(idx == previousOption.count - 1){
+                    OptionCell(currentOptions: $currentOptions, completition: { clickedText in
+                        if(clickedText == "Talk to Customer Care"){
+                            createChat()
+                            return
+                        }
+                        currentOptions = options[clickedText]!
+                        previousOption.append(clickedText)
+                        refreshOptions = false
+                        refreshOptions = true
+                    })
+                    .frame(maxHeight: .infinity)
+                }
+                else{
+                    EmptyView()
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .listRowBackground(Color.clear)
+            //.listRowSeparator(.hidden)
+            .listSectionSeparator(.hidden)
+            .frame(maxHeight: .infinity)
+        }
+        .listStyle(.plain)
+            .padding(.horizontal, 0)
+        .frame(maxHeight: .infinity)
+    }
+    
     func createChat(){
         OptionsMenuModel.shared.createChat(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, previousOption: previousOption[previousOption.count - 1], completition: {chatModel, error in
             if(error != nil){
