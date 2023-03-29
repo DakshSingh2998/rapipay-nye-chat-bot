@@ -15,10 +15,20 @@ class Websocket:ObservableObject {
     @Published var time = DispatchTime.now()
     @State var chatModel = ChatModel(data: [:])
     @State var pingTimer:Timer?
+    @State var didLoad = false
+    @State var chatId:Int?
+    @State var accessKey:String?
     
     func connect(chatModel:ChatModel?) {
-        self.chatModel = chatModel!
-        guard let url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatModel!.id)&accessKey=\(chatModel!.access_key)") else { return }
+        if( didLoad == false){
+            self.chatModel = chatModel!
+            chatId = chatModel?.id
+            accessKey = chatModel?.access_key
+            didLoad = true
+        }
+        guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatId)&accessKey=\(accessKey)") else { return }
+       
+        
         let request = URLRequest(url: url)
         self.webSocketTask = URLSession.shared.webSocketTask(with: request)
         
