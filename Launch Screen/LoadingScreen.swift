@@ -9,7 +9,10 @@ import SwiftUI
 
 struct LoadingScreen: View {
     @State var ONPAGE:Double = 0.0
+    @StateObject var networkMonitor = NetworkMonitor()
     @State var userModel:UserModel?
+    @State var showCommonAlert = false
+    @State var commonAlertText = ""
     var body: some View{
         ZStack{
             NavigationView{
@@ -22,7 +25,23 @@ struct LoadingScreen: View {
                 else{
                     AllChats(ONPAGE: $ONPAGE, userModel: $userModel)
                 }
+                EmptyView().alert(commonAlertText, isPresented: $showCommonAlert, actions: {
+                    Button("OK", role: .cancel, action: {
+                        showCommonAlert = false
+                    })
+                })
             }
+        }
+        
+        .onChange(of: networkMonitor.status) { connection in
+            if(connection == .connected){
+                commonAlertText = "We are back Online"
+            }
+            else{
+                commonAlertText = "Network Not Available"
+            }
+            
+            showCommonAlert = true
         }
         .onAppear(){
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
