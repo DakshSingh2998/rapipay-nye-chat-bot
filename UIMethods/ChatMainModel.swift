@@ -79,8 +79,10 @@ class ChatMainModel{
                 return
             }
             DispatchQueue.main.async {
-                websocket.messages = data.map{
-                    MessageModel(data: $0)
+                if(data.count != 0){
+                    websocket.messages = data.map{
+                        MessageModel(data: $0)
+                    }
                 }
                 websocket.connect(chatModel: chatModel)
             }

@@ -16,7 +16,7 @@ struct ChatMain: View {
     @State var alertText = ""
     @State var showAlert = false
     @FocusState var textInTfFocused:Bool
-    @ObservedObject var websocket = Websocket()
+    @StateObject var websocket = Websocket()
     @State var timer:Timer?
     @State var lastTextInTf = ""
     @State var tfWidth = Common.shared.width - (Common.shared.currentOrientation == .portrait ? 100 : 100)
@@ -26,15 +26,23 @@ struct ChatMain: View {
     @ObservedObject var textInTf = TextModel()
     @State var agentName = ""
     @State var message_queue:[String] = []
+    @State var showUi = true
+    
     var body: some View {
             VStack(spacing: 0){
-                EmptyView()
-                upperUi()
+                if(showUi == true){
+                    EmptyView()
+                    upperUi()
+                    
+                    generateList()
+                    Spacer()
+                    
+                    bottomUi()
+                }
+                else{
+                    EmptyView()
+                }
                 
-                generateList()
-                Spacer()
-                
-                bottomUi()
         }
             .navigationTitle(chatModel?.title ?? "Customer Care")
             .navigationBarTitleDisplayMode(.inline)
@@ -62,6 +70,7 @@ struct ChatMain: View {
                     ChatMainModel().typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
                     lastTextInTf = textInTf.value
                     })
+                
             })
             agentName = ChatMainModel.shared.setAgentName(chatModel: chatModel!, userModel: userModel!)
             ChatMainModel().loadMessages(websocket: websocket, chatModel:chatModel!, completition: { error in
@@ -72,6 +81,7 @@ struct ChatMain: View {
                         dismiss()
                     })
                 }
+                
                 
             })
             
@@ -124,8 +134,7 @@ struct ChatMain: View {
     }
     
     func generateList() -> some View{
-        return
-        ScrollViewReader { sp in
+        return ScrollViewReader { sp in
             List((0..<websocket.messages.count).reversed(), id: \.self){ idx in
                 VStack{
                     if(websocket.messages[idx].sender_username == userModel?.userName){

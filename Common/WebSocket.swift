@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 class Websocket:ObservableObject {
     @Published var messages:[MessageModel] = []
-    var webSocketTask:URLSessionWebSocketTask?
+    @Published var webSocketTask:URLSessionWebSocketTask?
     @Published var userTyping = ""
     @Published var lastTyping = ""
     @Published var time = DispatchTime.now()
@@ -24,7 +24,7 @@ class Websocket:ObservableObject {
             self.chatModel = chatModel!
             self.chatId = chatModel?.id
             self.accessKey = chatModel?.access_key
-            self.didLoad = true
+            //self.didLoad = true
         }
         guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatId!)&accessKey=\(accessKey!)") else { return }
        
@@ -107,6 +107,7 @@ class Websocket:ObservableObject {
                     break
                 }
             }
+            
             self.receiveMessage()
         }
     }
