@@ -9,24 +9,21 @@ import Foundation
 import SwiftUI
 class Websocket:ObservableObject {
     @Published var messages:[MessageModel] = []
-    @Published var webSocketTask:URLSessionWebSocketTask?
+     var webSocketTask:URLSessionWebSocketTask?
     @Published var userTyping = ""
     @Published var lastTyping = ""
     @Published var time = DispatchTime.now()
     @Published var chatModel = ChatModel(data: [:])
-    @Published var pingTimer:Timer?
+     var pingTimer:Timer?
     @Published var didLoad = false
     @Published var chatId:Int?
     @Published var accessKey:String?
     
     func connect(chatModel:ChatModel?) {
         if(didLoad == false){
-            self.chatModel = chatModel!
-            self.chatId = chatModel?.id
-            self.accessKey = chatModel?.access_key
             //self.didLoad = true
         }
-        guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatId!)&accessKey=\(accessKey!)") else { return }
+        guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatModel!.id)&accessKey=\(chatModel!.access_key)") else { return }
        
         
         let request = URLRequest(url: url)
@@ -49,10 +46,11 @@ class Websocket:ObservableObject {
     
     private func receiveMessage() {
         webSocketTask?.receive { result in
-            print(result)
+            self.receiveMessage()
+            //print(result)
             switch result {
             case .failure(let error):
-                print("rrr", error.localizedDescription)
+                //print("rrr", error.localizedDescription)
                 self.connect(chatModel: self.chatModel)
                 return
                 //self.webSocketTask?.resume()
@@ -108,7 +106,7 @@ class Websocket:ObservableObject {
                 }
             }
             
-            self.receiveMessage()
+            
         }
     }
     
