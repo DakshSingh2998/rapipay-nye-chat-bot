@@ -68,6 +68,9 @@ struct ChatMain: View {
                 if(error != nil){
                     alertText = error!
                     showAlert = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                        dismiss()
+                    })
                 }
                 
             })

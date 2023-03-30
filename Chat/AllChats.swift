@@ -14,7 +14,7 @@ struct AllChats: View {
     @State var gotoOptionsMenu = false
     @State var alertText = ""
     @State var showAlert = false
-    @State var allChats:[ChatModel] = []
+    @State var allChats:[ChatModel?] = []
     @State var chatModel:ChatModel?
     @State var gotoChatMain = false
     @State var showUi = true
@@ -24,10 +24,23 @@ struct AllChats: View {
             if(apiLoaded == true){
                 VStack{
                     Spacer()
-                    generateList()
+                    if(allChats.count != 0){
+                        generateList()
+                    }
+                    else{
+                        Spacer()
+                        Text("Start a Chat")
+                            .padding(.bottom, 64)
+                        Spacer()
+                    }
+                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding(.bottom, 64)
+                .background(Color("LightGrey"))
+                .cornerRadius(20)
+                .padding(.horizontal, 14)
+                .padding(.bottom, 6)
             }
             else{
                 ProgressView()
@@ -92,7 +105,7 @@ struct AllChats: View {
     func generateList() -> some View{
         List(0..<allChats.count, id: \.self){idx in
             HStack{
-                AllChatsCell(messageModel: MessageModel(data: allChats[idx].last_message), chatModel: allChats[idx])
+                AllChatsCell(messageModel: MessageModel(data: allChats[idx]!.last_message), chatModel: allChats[idx]!)
                     .background(Color("Blue"))
                     .frame(maxWidth: .infinity)
                     .background(Color("Blue"))
@@ -106,6 +119,9 @@ struct AllChats: View {
             .cornerRadius(20)
             
             .onTapGesture {
+                if(allChats[idx] == nil){
+                    return
+                }
                 chatModel = allChats[idx]
                 ONPAGE = 3.0
                 gotoChatMain = true

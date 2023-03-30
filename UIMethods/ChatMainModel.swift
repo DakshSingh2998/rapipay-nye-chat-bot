@@ -71,7 +71,7 @@ class ChatMainModel{
         ChatApi.shared.getMessages(userName: userName, pass: pass, chatId: chatModel.id, completition: {data, error in
             guard let data = data as? [[String: Any]] else {
                 if(error != nil){
-                    completition?((error as! Error).localizedDescription)
+                    completition?((error as? Error)?.localizedDescription ?? "Api error")
                 }
                 else{
                     completition?("Api error")

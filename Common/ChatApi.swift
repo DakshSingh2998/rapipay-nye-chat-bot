@@ -19,7 +19,7 @@ class ChatApi{
             
         })
     }
-    func getMessages(userName:String, pass:String, chatId:Int, completition: ((Any, Any) -> ())?){
+    func getMessages(userName:String, pass:String, chatId:Int, completition: ((Any?, Any?) -> ())?){
         let url = "https://api.chatengine.io/chats/\(chatId)/messages/"
         let httpMethod = "GET"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
