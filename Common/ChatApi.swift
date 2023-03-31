@@ -9,7 +9,7 @@ import Foundation
 class ChatApi{
     static var shared = ChatApi()
     var isTyping = false
-    func getChats(userName:String, pass:String, completition: ((Any, Any) -> ())?){
+    func getChats(userName:String, pass:String, completition: ((Any?, Any?) -> ())?){
         let url = "https://api.chatengine.io/chats/"
         let httpMethod = "GET"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
@@ -70,6 +70,15 @@ class ChatApi{
             completition?(data, error)
             self.isTyping = false
             
+        })
+    }
+    func patchLastRead(userName:String, pass:String, chatId:Int, lastReadId:Int){
+        let url = "https://api.chatengine.io/chats/\(chatId)/people/"
+        let parameters = "{\n    \"last_read\": \(lastReadId)\n}"
+        let httpMethod = "PATCH"
+        let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
+        let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
+        NetworkManager().connect(parameters:parameters, url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, timeOutInterval: 60, completition: {data, error in            
         })
     }
     

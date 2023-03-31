@@ -87,11 +87,15 @@ class ChatMainModel{
                     websocket.messages = data.map{
                         MessageModel(data: $0)
                     }
+                    self.patchLastRead(chatModel: chatModel, lastReadId: websocket.messages[websocket.messages.count - 1].id)
                 }
                 websocket.connect(chatModel: chatModel)
             }
             completition?(nil)
             
         })
+    }
+    func patchLastRead(chatModel:ChatModel, lastReadId: Int){
+        ChatApi.shared.patchLastRead(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, chatId: chatModel.id, lastReadId: lastReadId)
     }
 }

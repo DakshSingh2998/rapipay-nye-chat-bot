@@ -21,7 +21,7 @@ class Websocket:ObservableObject {
     
     func connect(chatModel:ChatModel?) {
         if(didLoad == false){
-            //self.didLoad = true
+            self.chatModel = chatModel!
         }
         guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatModel!.id)&accessKey=\(chatModel!.access_key)") else { return }
        
@@ -31,9 +31,7 @@ class Websocket:ObservableObject {
         
         webSocketTask?.resume()
         receiveMessage()
-        self.pingTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { _ in
-            self.ping()
-            })
+        
     }
     func connect2() {
         guard let url = URL(string: "wss://api.chatengine.io/person/?publicKey=\(Common.shared.projectId)&username=\(Common.shared.userDefaultName)&secret=\(Common.shared.userDefaultPass)") else { return }
@@ -57,6 +55,7 @@ class Websocket:ObservableObject {
             case .success(let message):
                 switch message {
                 case .string(let text):
+                    print(text)
                     guard let data = text.data(using: .utf8) else{
                         break
                     }
@@ -68,6 +67,43 @@ class Websocket:ObservableObject {
                     guard let data2 = jsonData as? [String:Any] else{
                         break
                     }
+                    if(data2["action"] as! String == "edit_chat"){
+                        guard let data2 = data2["data"] as? [String:Any] else{
+                            break
+                        }
+                        guard let last_message = data2["last_message"] as? [String:Any] else{
+                            return
+                        }
+                        
+                        var people = self.chatModel.people
+                        var newChatModel = ChatModel(data: data2)
+                        var newPeople = newChatModel.people
+                        
+                        for i in 0..<people.count{
+                            var person = UserModel(data: people[i]["person"] as! [String : Any])
+                            for j in 0..<newPeople.count{
+                                var newPerson = UserModel(data: newPeople[i]["person"] as! [String : Any])
+                                if(newPerson.userName != Common.shared.userDefaultName){
+                                    continue
+                                }
+                                if((people[i]["last_read"] as! Int) < newPeople[j]["last_read"] as! Int){
+                                    ChatApi.shared.patchLastRead(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, chatId: self.chatModel.id, lastReadId: last_message["id"] as! Int)
+                                    break
+                                }
+                            }
+                            
+                            
+                            
+                        }
+                        DispatchQueue.main.async {
+                            self.chatModel = newChatModel
+                        }
+                        
+                        
+                        
+                        
+                    }
+                    
                     if(data2["action"] as! String == "new_message"){
                         guard let data2 = data2["data"] as? [String:Any] else{
                             break
@@ -77,14 +113,17 @@ class Websocket:ObservableObject {
                         }
                         var msgModel = MessageModel(data: data2)
                         if(msgModel.sender_username != Common.shared.userDefaultName){
-                            DispatchQueue.main.sync {
+                            DispatchQueue.main.async {
                                 self.messages.append(msgModel)
                             }
                         }
                         else{
                             for i in (0..<self.messages.count).reversed(){
                                 if(self.messages[i].text == msgModel.text){
-                                    self.messages[i] = msgModel
+                                    DispatchQueue.main.async {
+                                        self.messages[i] = msgModel
+                                    }
+                                    
                                     break
                                 }
                             }
@@ -121,13 +160,9 @@ class Websocket:ObservableObject {
             
         }
     }
-    
-    func ping() {
-        webSocketTask!.sendPing { (error) in
-            if let error = error {
-                print("Ping failed: \(error)")
-            }
-        }
+
+    func disconnectt(){
+        webSocketTask?.cancel()
     }
     
     

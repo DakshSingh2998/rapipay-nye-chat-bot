@@ -92,10 +92,11 @@ struct ChatMain: View {
                         dismiss()
                     })
                 }
-                
-                
             })
             
+        }
+        .onDisappear(){
+            websocket.disconnectt()
         }
         .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)){_ in
             DispatchQueue.main.asyncAfter(deadline: .now()+1.0){
@@ -153,7 +154,7 @@ struct ChatMain: View {
                             
                             HStack(alignment: .top, spacing: -2){
                                 Spacer(minLength: 64)
-                                ChatCell(messageModel: idx, bgColor: "Blue")
+                                ChatCell(messageModel: idx, websocket: websocket, bgColor: "Blue")
                                 
                                     .upperCurve(20, corners: [.topLeft, .bottomLeft, .bottomRight])
                                 
@@ -162,7 +163,7 @@ struct ChatMain: View {
                         else{
                             HStack(alignment: .top, spacing: -2){
                                 
-                                ChatCell(messageModel: idx, bgColor: "Orange")
+                                ChatCell(messageModel: idx, websocket: websocket, bgColor: "Orange")
                                     .upperCurve(20, corners: [.topRight, .bottomLeft, .bottomRight])
                                 Spacer(minLength: 64)
                             }
@@ -201,7 +202,7 @@ struct ChatMain: View {
             }
             .frame(maxWidth: .infinity)
             CustomTextField(defaultplaceholder: "Message", vm: textInTf, width: $tfWidth, isInCorrect: $isTextIncorrect, commitClosure: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.0005, execute: {
                     textInTfFocused = true
                 })
                 if(textInTf.value == ""){
