@@ -55,7 +55,7 @@ class Websocket:ObservableObject {
             case .success(let message):
                 switch message {
                 case .string(let text):
-                    print(text)
+                    //print(text)
                     guard let data = text.data(using: .utf8) else{
                         break
                     }
@@ -86,7 +86,7 @@ class Websocket:ObservableObject {
                                 if(newPerson.userName != Common.shared.userDefaultName){
                                     continue
                                 }
-                                if((people[i]["last_read"] as! Int) < newPeople[j]["last_read"] as! Int){
+                                if((people[i]["last_read"] as? Int ?? -1) < newPeople[j]["last_read"] as? Int ?? 0){
                                     ChatApi.shared.patchLastRead(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, chatId: self.chatModel.id, lastReadId: last_message["id"] as! Int)
                                     break
                                 }

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class ChatModel{
+class ChatModel: Identifiable{
     var id = 0
     var admin:[String:Any] = [:]
     var people:[[String: Any]] = []

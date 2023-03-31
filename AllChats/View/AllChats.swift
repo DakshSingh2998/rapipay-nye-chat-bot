@@ -14,7 +14,7 @@ struct AllChats: View {
     @State var gotoOptionsMenu = false
     @State var alertText = ""
     @State var showAlert = false
-    @State var allChats:[ChatModel?] = []
+    @State var allChats:[ChatModel] = []
     @State var chatModel:ChatModel?
     @State var gotoChatMain = false
     @State var showUi = true
@@ -86,30 +86,29 @@ struct AllChats: View {
 
     }
     func generateList() -> some View{
-        List(0..<allChats.count, id: \.self){idx in
-            HStack{
-                AllChatsCell(messageModel: MessageModel(data: allChats[idx]!.last_message), chatModel: allChats[idx]!)
-                    .background(Color("Blue"))
-                    .frame(maxWidth: .infinity)
-                    .background(Color("Blue"))
-                Text(">").bold()
-                    .padding(.horizontal, 10)
-            }
-            .cornerRadius(20)
-            .background(Color("Blue"))
-            .cornerRadius(20)
-            .padding(.horizontal, 10)
-            .cornerRadius(20)
-            
-            .onTapGesture {
-                if(allChats[idx] == nil){
-                    return
+        List{
+            ForEach(allChats){
+                idx in
+                HStack{
+                    AllChatsCell(messageModel: MessageModel(data: idx.last_message), chatModel: idx)
+                        .background(Color("Blue"))
+                        .frame(maxWidth: .infinity)
+                        .background(Color("Blue"))
+                    Text(">").bold()
+                        .padding(.horizontal, 10)
                 }
-                chatModel = allChats[idx]
-                ONPAGE = 3.0
-                gotoChatMain = true
+                .cornerRadius(20)
+                .background(Color("Blue"))
+                .cornerRadius(20)
+                .padding(.horizontal, 10)
+                .cornerRadius(20)
+                
+                .onTapGesture {
+                    chatModel = idx
+                    ONPAGE = 3.0
+                    gotoChatMain = true
+                }
             }
-            
                 .listRowBackground(Color.clear)
                 .listSectionSeparator(.hidden)
                 .cornerRadius(10)

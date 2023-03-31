@@ -87,7 +87,7 @@ struct ChatCell: View {
     func checkSeen() -> Bool{
         var people = websocket.chatModel.people
         for i in people{
-            if((i["last_read"] as! Int) <  messageModel.id){
+            if((i["last_read"] as? Int ?? -1) <  messageModel.id){
                 return false
             }
         }
