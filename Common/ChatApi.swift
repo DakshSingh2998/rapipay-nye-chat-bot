@@ -50,7 +50,7 @@ class ChatApi{
         let httpMethod = "POST"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
-        NetworkManager.shared.connect(parameters: parameters, url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, completition: {data, error in
+        NetworkManager.shared.connect(parameters: parameters, url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, timeOutInterval: Double.infinity, completition: {data, error in
             completition?(data, error)
             
         })
