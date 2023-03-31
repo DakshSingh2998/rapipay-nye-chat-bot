@@ -201,7 +201,7 @@ struct ChatMain: View {
                 
             }
             .frame(maxWidth: .infinity)
-            CustomTextField(defaultplaceholder: "Message", vm: textInTf, width: $tfWidth, isInCorrect: $isTextIncorrect, commitClosure: {
+            CustomTextField(defaultplaceholder: "Message", vm: textInTf, width: $tfWidth, isInCorrect: $isTextIncorrect, lineLimit: 99999999, customAxis: .vertical, commitClosure: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.0005, execute: {
                     textInTfFocused = true
                 })

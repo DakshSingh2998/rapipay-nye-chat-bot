@@ -71,7 +71,7 @@ struct OptionsMenu: View {
                 HStack{
                     Spacer()
                     Text(previousOption[idx])
-                        .lineLimit(100)
+                        .lineLimit(999999999)
                         .font(.system(size: 16))
                         .bold()
                         .padding(.all, 10)

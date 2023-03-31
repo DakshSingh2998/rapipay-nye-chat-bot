@@ -24,6 +24,9 @@ struct CustomTextField: View{
     @State var labelText = ""
     @State var originalDigit = 0
     @State var isNumeric = false
+    @State var lineLimit = 1
+    @State var customAxis = Axis.horizontal
+    
     var commitClosure: (() -> Void)?
     var body: some View{
         
@@ -49,7 +52,9 @@ struct CustomTextField: View{
                     .padding(.trailing, 54)
                     .isHidden(isProtected ? (tempIsProtected ? false : true) : true)
                     //simple tf
-                    TextField(placeholder, text: $vm.value).onChange(of: vm.value){newVal in
+                    TextField(placeholder, text: $vm.value, axis: customAxis)
+                        .lineLimit(lineLimit)
+                        .onChange(of: vm.value){newVal in
                         if(isDate == false){
                             return
                         }
