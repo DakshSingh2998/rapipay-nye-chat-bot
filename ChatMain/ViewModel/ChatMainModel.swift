@@ -8,9 +8,10 @@
 import Foundation
 class ChatMainModel{
     static var shared = ChatMainModel()
+    
     func stringToTime(isoDate:String) -> String{
         if(isoDate == ""){
-            return ""
+            return "sending"
         }
           let dateFormatter = DateFormatter()
           dateFormatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
@@ -23,17 +24,20 @@ class ChatMainModel{
 
         return convertDateFormatter.string(from: date)
     }
-    func sendMessage(chatModel:ChatModel, textInTf:String, completition: ((String?) -> ())?){
+    func sendMessage(chatModel:ChatModel, textInTf:String, websocket:Websocket, completition: ((String?) -> ())?){
         if(textInTf == ""){
             completition?(nil)
         }
+        
         var userName = UserDefaults.standard.value(forKey: "user") as! String
         var pass = UserDefaults.standard.value(forKey: "pass") as! String
         ChatApi.shared.sendMessage(userName: userName, pass: pass, chatId: chatModel.id, text: textInTf, completition: {data, error in
+            
             guard let data = data as? [String: Any] else {
                 completition?((error as! Error).localizedDescription)
                 return
             }
+            
             completition?(nil)
             
             

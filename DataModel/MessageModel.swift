@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class MessageModel{
+class MessageModel: Identifiable{
     var id = 0
     var sender:[String:Any] = [:]
     var created = ""

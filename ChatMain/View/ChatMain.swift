@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+struct MessageQueue{
+    @State var text = ""
+    @State var id = -1
+}
 
 struct ChatMain: View {
     @Environment(\.dismiss) var dismiss
@@ -25,16 +29,23 @@ struct ChatMain: View {
     @State var isTextIncorrect = false
     @ObservedObject var textInTf = TextModel()
     @State var agentName = ""
-    @State var message_queue:[String] = []
+    @State var message_queue:[MessageQueue] = []
     @State var showUi = true
+    @State var showList = true
+    @State var chatTempId = -1
     
     var body: some View {
             VStack(spacing: 0){
                 if(showUi == true){
                     EmptyView()
                     upperUi()
+                    if(showList){
+                        generateList()
+                    }
+                    else{
+                        EmptyView()
+                    }
                     
-                    generateList()
                     Spacer()
                     
                     bottomUi()
@@ -64,7 +75,7 @@ struct ChatMain: View {
             })
         })
         .onAppear(){
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {
                 textInTfFocused = true
                 self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
                     ChatMainModel().typingChange(lastTextInTf: lastTextInTf, textInTf: textInTf.value, chatModel: chatModel!)
@@ -135,40 +146,38 @@ struct ChatMain: View {
     
     func generateList() -> some View{
         return ScrollViewReader { sp in
-            List((0..<websocket.messages.count).reversed(), id: \.self){ idx in
-                VStack{
-                    if(websocket.messages[idx].sender_username == userModel?.userName){
-                        
-                        HStack(alignment: .top, spacing: -2){
-                            Spacer(minLength: 64)
-                            ChatCell(messageModel: websocket.messages[idx], bgColor: "Blue")
+            List{
+                ForEach(websocket.messages.reversed()){ idx in
+                    VStack{
+                        if(idx.sender_username == userModel?.userName){
                             
-                                .upperCurve(20, corners: [.topLeft, .bottomLeft, .bottomRight])
+                            HStack(alignment: .top, spacing: -2){
+                                Spacer(minLength: 64)
+                                ChatCell(messageModel: idx, bgColor: "Blue")
+                                
+                                    .upperCurve(20, corners: [.topLeft, .bottomLeft, .bottomRight])
+                                
+                            }
+                        }
+                        else{
+                            HStack(alignment: .top, spacing: -2){
+                                
+                                ChatCell(messageModel: idx, bgColor: "Orange")
+                                    .upperCurve(20, corners: [.topRight, .bottomLeft, .bottomRight])
+                                Spacer(minLength: 64)
+                            }
                             
                         }
                     }
-                    else{
-                        HStack(alignment: .top, spacing: -2){
-                            
-                            ChatCell(messageModel: websocket.messages[idx], bgColor: "Orange")
-                                .upperCurve(20, corners: [.topRight, .bottomLeft, .bottomRight])
-                            Spacer(minLength: 64)
-                        }
-                        
-                    }
+                    
                 }
                 .padding(.horizontal, 10)
                 .listRowBackground(Color.clear)
                 .listRowSeparator(.hidden)
                 .listSectionSeparator(.hidden)
                 .scaleEffect(x: 1, y: -1, anchor: .center)
-                .onAppear(){
-                        //sp.scrollTo(idx)
-                    //print(idx)
-                    
-                    
-                    
-                }
+                
+                
             }.listStyle(.plain)
                 .padding(.horizontal, -20)
                 .scaleEffect(x: 1, y: -1, anchor: .center)
@@ -192,18 +201,26 @@ struct ChatMain: View {
             }
             .frame(maxWidth: .infinity)
             CustomTextField(defaultplaceholder: "Message", vm: textInTf, width: $tfWidth, isInCorrect: $isTextIncorrect, commitClosure: {
-                if(textInTf.value == ""){
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {
-                        textInTfFocused = true
-                    })
-                    return
-                }
-                var tempTextInTf = textInTf.value
-                message_queue.append(tempTextInTf)
-                textInTf.value = ""
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.005, execute: {
                     textInTfFocused = true
                 })
+                if(textInTf.value == ""){
+                    
+                    return
+                }
+                var dataa:[String: Any] = [:]
+                dataa["text"] = textInTf.value
+                dataa["id"] = chatTempId
+                dataa["sender_username"] = Common.shared.userDefaultName
+                DispatchQueue.main.async {
+                    websocket.messages.append(MessageModel(data: dataa))
+                }
+                var tempTextInTf = textInTf.value
+                message_queue.append(MessageQueue(text: tempTextInTf, id: chatTempId))
+                
+                chatTempId = chatTempId - 1
+                textInTf.value = ""
+                
                 if(message_queue.count != 1){
                     return
                 }
@@ -226,20 +243,14 @@ struct ChatMain: View {
     }
     
     func send_Message(){
+        
         if(message_queue.count < 1){
             return
         }
-        ChatMainModel.shared.sendMessage(chatModel: chatModel!, textInTf: message_queue[0], completition: { error in
+        ChatMainModel.shared.sendMessage(chatModel: chatModel!, textInTf: message_queue[0].text, websocket: websocket, completition: { error in
+            
             message_queue.remove(at: 0)
             send_Message()
-            /*
-            if(error != nil){
-                alertText = error!
-                showAlert = true
-                return
-            }
-             */
-            
             
         })
     }

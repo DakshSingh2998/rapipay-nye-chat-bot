@@ -10,8 +10,8 @@ import UIKit
 import SwiftUI
 class Common{
     static var shared = Common()
-    var privateKey = "9240f674-4630-4cad-819e-fd7c065b80cd"
-    var projectId = "9789b39d-fa43-4419-8af6-b51fb4fefb35"
+    var privateKey = "22b8844b-a242-4d70-87be-b9b74e60a901"
+    var projectId = "e80b8656-fa4b-4b7d-8e0c-fbf44a35b470"
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
     var currentOrientation = UIDevice.current.orientation

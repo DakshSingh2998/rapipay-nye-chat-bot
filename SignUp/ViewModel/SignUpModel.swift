@@ -58,6 +58,7 @@ class SignUpModel{
                     completition?(data["message"] as? String)
                     return
                 }
+            completition?(nil)
                 
         })
     }

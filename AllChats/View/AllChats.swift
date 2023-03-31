@@ -69,24 +69,7 @@ struct AllChats: View {
         
         .onAppear(){
             apiLoaded = false
-            AllChatsModel.shared.getChats(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, completition: {allChats, error in
-                if(error != nil || allChats == nil){
-                    if(error != nil){
-                        alertText = error!
-                    }
-                    else{
-                        alertText = "Network Error"
-                    }
-                    
-                    showAlert = true
-                    return
-                }
-                
-                self.allChats = allChats!
-                apiLoaded = true
-                
-                
-            })
+            getChats()
         }
         .navigationTitle("Chats")
         .toolbar(content: {
@@ -128,12 +111,34 @@ struct AllChats: View {
             }
             
                 .listRowBackground(Color.clear)
-                //.listRowSeparator(.hidden)
                 .listSectionSeparator(.hidden)
                 .cornerRadius(10)
         }
         .cornerRadius(10)
         .listStyle(.plain)
         .padding(.horizontal, -20)
+        .refreshable {
+            getChats()
+        }
+    }
+    func getChats(){
+        AllChatsModel.shared.getChats(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, completition: {allChats, error in
+            if(error != nil || allChats == nil){
+                if(error != nil){
+                    alertText = error!
+                }
+                else{
+                    alertText = "Network Error"
+                }
+                
+                showAlert = true
+                return
+            }
+            
+            self.allChats = allChats!
+            apiLoaded = true
+            
+            
+        })
     }
 }

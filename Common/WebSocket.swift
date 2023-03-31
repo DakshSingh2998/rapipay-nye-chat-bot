@@ -75,9 +75,21 @@ class Websocket:ObservableObject {
                         guard let data2 = data2["message"] as? [String:Any] else{
                             break
                         }
-                        DispatchQueue.main.async {
-                            self.messages.append(MessageModel(data: data2))
+                        var msgModel = MessageModel(data: data2)
+                        if(msgModel.sender_username != Common.shared.userDefaultName){
+                            DispatchQueue.main.sync {
+                                self.messages.append(msgModel)
+                            }
                         }
+                        else{
+                            for i in (0..<self.messages.count).reversed(){
+                                if(self.messages[i].text == msgModel.text){
+                                    self.messages[i] = msgModel
+                                    break
+                                }
+                            }
+                        }
+                        
                     }
                     if(data2["action"] as! String == "is_typing"){
                         guard let data2 = data2["data"] as? [String:Any] else{
