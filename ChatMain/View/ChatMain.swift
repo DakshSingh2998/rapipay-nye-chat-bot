@@ -191,42 +191,21 @@ struct ChatMain: View {
         return ZStack(alignment: .leading){
             HStack{
                 Spacer()
-                Image(systemName: "arrowtriangle.right.circle.fill")
+                Image(systemName: "arrowtriangle.right.cicle.fill")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 32)
                     .foregroundColor(Color("Blue"))
                     .frame(alignment: .trailing)
                     .padding(.trailing, 16)
+                    .onTapGesture {
+                        checkSendMessage()
+                    }
                 
             }
             .frame(maxWidth: .infinity)
             CustomTextField(defaultplaceholder: "Message", vm: textInTf, width: $tfWidth, isInCorrect: $isTextIncorrect, lineLimit: 99999999, customAxis: .vertical, commitClosure: {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.0005, execute: {
-                    textInTfFocused = true
-                })
-                if(textInTf.value == ""){
-                    
-                    return
-                }
-                var dataa:[String: Any] = [:]
-                dataa["text"] = textInTf.value
-                dataa["id"] = chatTempId
-                dataa["sender_username"] = Common.shared.userDefaultName
-                DispatchQueue.main.async {
-                    websocket.messages.append(MessageModel(data: dataa))
-                }
-                var tempTextInTf = textInTf.value
-                message_queue.append(MessageQueue(text: tempTextInTf, id: chatTempId))
-                
-                chatTempId = chatTempId - 1
-                textInTf.value = ""
-                
-                if(message_queue.count != 1){
-                    return
-                }
-                
-                send_Message()
+                checkSendMessage()
             })
             .focused($textInTfFocused)
             .padding(.leading, 16)
@@ -241,6 +220,30 @@ struct ChatMain: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color("LightGrey"))
+    }
+    func checkSendMessage(){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0005, execute: {
+            textInTfFocused = true
+        })
+        if(textInTf.value == ""){
+            return
+        }
+        var dataa:[String: Any] = [:]
+        dataa["text"] = textInTf.value
+        dataa["id"] = chatTempId
+        dataa["sender_username"] = Common.shared.userDefaultName
+        DispatchQueue.main.async {
+            websocket.messages.append(MessageModel(data: dataa))
+        }
+        var tempTextInTf = textInTf.value
+        message_queue.append(MessageQueue(text: tempTextInTf, id: chatTempId))
+        chatTempId = chatTempId - 1
+        textInTf.value = ""
+        if(message_queue.count != 1){
+            return
+        }
+        
+        send_Message()
     }
     
     func send_Message(){
