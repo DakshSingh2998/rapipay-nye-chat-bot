@@ -98,10 +98,6 @@ class Websocket:ObservableObject {
                         DispatchQueue.main.async {
                             self.chatModel = newChatModel
                         }
-                        
-                        
-                        
-                        
                     }
                     
                     if(data2["action"] as! String == "new_message"){
