@@ -191,7 +191,7 @@ struct ChatMain: View {
         return ZStack(alignment: .leading){
             HStack{
                 Spacer()
-                Image(systemName: "arrowtriangle.right.cicle.fill")
+                Image(systemName: Constant.shared.sendButton)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 32)

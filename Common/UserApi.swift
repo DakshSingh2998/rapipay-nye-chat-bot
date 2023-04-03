@@ -11,7 +11,7 @@ class UserApi{
     
     func createUser(userName:String, firstName:String, lastName:String, password:String, completition: ((Any, Any)->())?){
         let parameters = "{\n    \"username\": \"\(userName)\",\n    \"first_name\": \"\(firstName)\",\n    \"last_name\": \"\(lastName)\",\n    \"secret\": \"\(password)\" \n}"
-        let url = "\(Constant.shared.domain)users/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.createUser)"
         let httpMethod = "POST"
         let addValue = ["PRIVATE-KEY" : Common.shared.privateKey]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
@@ -24,7 +24,7 @@ class UserApi{
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
         let httpMethod = "GET"
-        let url = "\(Constant.shared.domain)users/me/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.myUser)"
         
         NetworkManager.shared.connect(url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, completition: {data, err in
             completition?(data, err)
@@ -34,7 +34,7 @@ class UserApi{
         let addValue = ["PRIVATE-KEY" : Common.shared.privateKey]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
         let httpMethod = "GET"
-        let url = "\(Constant.shared.domain)users/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.createUser)"
         
         NetworkManager.shared.connect(url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, completition: {data, err in
             completition?(data, err)

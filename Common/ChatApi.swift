@@ -10,7 +10,7 @@ class ChatApi{
     static var shared = ChatApi()
     var isTyping = false
     func getChats(userName:String, pass:String, completition: ((Any?, Any?) -> ())?){
-        let url = "\(Constant.shared.domain)chats/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.getChats)"
         let httpMethod = "GET"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
@@ -20,7 +20,7 @@ class ChatApi{
         })
     }
     func getMessages(userName:String, pass:String, chatId:Int, completition: ((Any?, Any?) -> ())?){
-        let url = "\(Constant.shared.domain)chats/\(chatId)/messages/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.getChats)\(chatId)/\(Constant.shared.getMessages)"
         let httpMethod = "GET"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
@@ -31,7 +31,7 @@ class ChatApi{
     }
     
     func createChat(userName:String, pass:String, previousOption:String, userToAdd:String,  completition: ((Any, Any) -> ())?){
-        let url = "\(Constant.shared.domain)chats/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.getChats)"
         let parameters = "{\n    \"usernames\": [\"\(userName)\", \"\(userToAdd)\"],\n    \"title\": \"\(previousOption)\",\n    \"is_direct_chat\": true\n}"
 
         let httpMethod = "PUT"
@@ -44,7 +44,7 @@ class ChatApi{
     }
     
     func sendMessage(userName:String, pass:String, chatId:Int, text:String, completition: ((Any, Any) -> ())?){
-        let url = "\(Constant.shared.domain)chats/\(chatId)/messages/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.getChats)\(chatId)/\(Constant.shared.getMessages)"
         let parameters = "{\n    \"text\": \"\(text)\"}"
 
         let httpMethod = "POST"
@@ -61,7 +61,7 @@ class ChatApi{
             return
         }
         isTyping = true
-        let url = "\(Constant.shared.domain)chats/\(chatId)/typing/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.getChats)\(chatId)/\(Constant.shared.typing)"
 
         let httpMethod = "POST"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
@@ -73,7 +73,7 @@ class ChatApi{
         })
     }
     func patchLastRead(userName:String, pass:String, chatId:Int, lastReadId:Int){
-        let url = "\(Constant.shared.domain)chats/\(chatId)/people/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.getChats)\(chatId)/\(Constant.shared.people)"
         let parameters = "{\n    \"last_read\": \(lastReadId)\n}"
         let httpMethod = "PATCH"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
@@ -83,7 +83,7 @@ class ChatApi{
     }
     
     func addMember(chatId:Int, userName:String, pass:String, userModelToAdd:String, completition:((Any, Any) -> ())?){
-        let url = "\(Constant.shared.domain)chats/\(chatId)/people/"
+        let url = "\(Constant.shared.domain)\(Constant.shared.getChats)\(chatId)/\(Constant.shared.people)"
         let parameters = "{\n    \"username\": \"\(userModelToAdd)\"\n}"
 
         let httpMethod = "POST"
