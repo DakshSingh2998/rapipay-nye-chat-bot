@@ -73,6 +73,9 @@ class Common{
     }
     
 }
+
+//general extension of view to round specific corners
+
 extension View{
     func upperCurve(_ radius: CGFloat, corners: UIRectCorner) -> some View{
         clipShape(RoundedCorner(radius: radius, corners: corners))

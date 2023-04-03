@@ -222,7 +222,7 @@ struct ChatMain: View {
         .background(Color("LightGrey"))
     }
     func checkSendMessage(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0005, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.00002, execute: {
             textInTfFocused = true
         })
         if(textInTf.value == ""){

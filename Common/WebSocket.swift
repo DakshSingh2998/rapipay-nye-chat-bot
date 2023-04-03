@@ -21,7 +21,9 @@ class Websocket:ObservableObject {
     
     func connect(chatModel:ChatModel?) {
         if(didLoad == false){
-            self.chatModel = chatModel!
+            DispatchQueue.main.async {
+                self.chatModel = chatModel!
+            }
         }
         guard var url = URL(string: "wss://api.chatengine.io/chat/?projectID=\(Common.shared.projectId)&chatID=\(chatModel!.id)&accessKey=\(chatModel!.access_key)") else { return }
        
@@ -41,6 +43,8 @@ class Websocket:ObservableObject {
         webSocketTask?.resume()
         receiveMessage()
     }
+    
+    
     
     private func receiveMessage() {
         webSocketTask?.receive { result in
@@ -67,6 +71,8 @@ class Websocket:ObservableObject {
                     guard let data2 = jsonData as? [String:Any] else{
                         break
                     }
+                    
+                    // here we are checking if id last message from another user is grater than last present last read id  then call patch lastread api to update last read
                     if(data2["action"] as! String == "edit_chat"){
                         guard let data2 = data2["data"] as? [String:Any] else{
                             break
@@ -75,10 +81,14 @@ class Websocket:ObservableObject {
                             return
                         }
                         
+                        //chatmodel is old chatmodelm newchatmodel is latest chatmodel that arrived in this websocket
+                        
                         var people = self.chatModel.people
                         var newChatModel = ChatModel(data: data2)
                         var newPeople = newChatModel.people
                         
+                        
+                        //matching last read read of old and new chatmodel
                         for i in 0..<people.count{
                             var person = UserModel(data: people[i]["person"] as! [String : Any])
                             for j in 0..<newPeople.count{
@@ -100,6 +110,7 @@ class Websocket:ObservableObject {
                         }
                     }
                     
+                    // if its a new message then append it in list and, if same message is sent by user than find that message object in list and replace it with new one from server
                     if(data2["action"] as! String == "new_message"){
                         guard let data2 = data2["data"] as? [String:Any] else{
                             break
@@ -114,8 +125,9 @@ class Websocket:ObservableObject {
                             }
                         }
                         else{
+                            
                             for i in (0..<self.messages.count).reversed(){
-                                if(self.messages[i].text == msgModel.text){
+                                if(self.messages[i].text == msgModel.text && (i == 0 || self.messages[i - 1 ].created != "" )){
                                     DispatchQueue.main.async {
                                         self.messages[i] = msgModel
                                     }
@@ -126,6 +138,8 @@ class Websocket:ObservableObject {
                         }
                         
                     }
+                    
+                    //handling typing event here, using two strings user typing is string to show on ui if both the user or multiple users are typing then show both typing, last typing variable is used to store name of last user typing.
                     if(data2["action"] as! String == "is_typing"){
                         guard let data2 = data2["data"] as? [String:Any] else{
                             break

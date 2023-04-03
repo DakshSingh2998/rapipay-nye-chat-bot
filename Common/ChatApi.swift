@@ -82,6 +82,7 @@ class ChatApi{
         })
     }
     
+    //add member in chat, obsolete as we are now using get or create chat api.
     func addMember(chatId:Int, userName:String, pass:String, userModelToAdd:String, completition:((Any, Any) -> ())?){
         let url = "\(Constant.shared.domain)\(Constant.shared.getChats)\(chatId)/\(Constant.shared.people)"
         let parameters = "{\n    \"username\": \"\(userModelToAdd)\"\n}"
