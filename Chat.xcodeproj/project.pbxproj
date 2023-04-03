@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5208186529DAA93900E9951B /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5208186429DAA93900E9951B /* Constant.swift */; };
 		5228C79129CC495500C6859F /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5228C79029CC495500C6859F /* ChatCell.swift */; };
 		5228C79329CC73DE00C6859F /* Temp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5228C79229CC73DE00C6859F /* Temp.swift */; };
 		5228C79529CC781A00C6859F /* DatabaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5228C79429CC781A00C6859F /* DatabaseHelper.swift */; };
@@ -66,6 +67,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5208186429DAA93900E9951B /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		5228C79029CC495500C6859F /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		5228C79229CC73DE00C6859F /* Temp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Temp.swift; sourceTree = "<group>"; };
 		5228C79429CC781A00C6859F /* DatabaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseHelper.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				52FA1E2F29D1986F00AFEF7F /* TDataCore+CoreDataClass.swift */,
 				52FA1E3029D1986F00AFEF7F /* TDataCore+CoreDataProperties.swift */,
 				52B2147C29D5A9EF00E87C7C /* NetworkMonitor.swift */,
+				5208186429DAA93900E9951B /* Constant.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				52FA1E2E29D1902000AFEF7F /* AllChatsCell.swift in Sources */,
 				523E1FE7406D381E00EB1E27 /* ChatModel.swift in Sources */,
 				5291667E29CDAE03008ED95E /* OptionCell.swift in Sources */,
+				5208186529DAA93900E9951B /* Constant.swift in Sources */,
 				523E1FDF406D381E00EB1E27 /* UserApi.swift in Sources */,
 				5228C79529CC781A00C6859F /* DatabaseHelper.swift in Sources */,
 				524D614329C96F8C0036F9F1 /* WebSocket.swift in Sources */,
