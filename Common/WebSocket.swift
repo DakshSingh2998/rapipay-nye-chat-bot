@@ -49,7 +49,7 @@ class Websocket:ObservableObject {
     private func receiveMessage() {
         webSocketTask?.receive { result in
             self.receiveMessage()
-            //print(result)
+            print(result)
             switch result {
             case .failure(let error):
                 //print("rrr", error.localizedDescription)

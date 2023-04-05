@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatCell: View {
     @State var messageModel:MessageModel
-    @State var chatModel:ChatModel
+    @Binding var chatModel:ChatModel
     @State var textViewHeight:CGFloat = 0.0
     @State var textViewHeight2:CGFloat = 0.0
     @State var bgColor = "LightGrey"
