@@ -154,7 +154,7 @@ struct ChatMain: View {
                             
                             HStack(alignment: .top, spacing: -2){
                                 Spacer(minLength: 64)
-                                ChatCell(messageModel: idx, websocket: websocket, bgColor: "Blue")
+                                ChatCell(messageModel: idx, chatModel: websocket.chatModel, bgColor: "Blue")
                                 
                                     .upperCurve(20, corners: [.topLeft, .bottomLeft, .bottomRight])
                                 
@@ -163,7 +163,7 @@ struct ChatMain: View {
                         else{
                             HStack(alignment: .top, spacing: -2){
                                 
-                                ChatCell(messageModel: idx, websocket: websocket, bgColor: "Orange")
+                                ChatCell(messageModel: idx, chatModel: websocket.chatModel, bgColor: "Orange")
                                     .upperCurve(20, corners: [.topRight, .bottomLeft, .bottomRight])
                                 Spacer(minLength: 64)
                             }

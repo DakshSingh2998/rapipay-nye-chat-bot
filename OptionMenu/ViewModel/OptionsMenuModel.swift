@@ -13,7 +13,7 @@ class OptionsMenuModel{
         var chatModel:ChatModel?
         var randAgent:UserModel?
         
-        UserApi.shared.getUsers(completition: {data, error in
+        UserApi().getUsers(completition: {data, error in
             guard let data = data as? [[String:Any]] else{
                 if(error != nil){
                     completition?(nil, (error as! Error).localizedDescription)

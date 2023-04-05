@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChatCell: View {
     @State var messageModel:MessageModel
-    @State var websocket:Websocket
+    @State var chatModel:ChatModel
     @State var textViewHeight:CGFloat = 0.0
     @State var textViewHeight2:CGFloat = 0.0
     @State var bgColor = "LightGrey"
@@ -85,7 +85,7 @@ struct ChatCell: View {
         }
     }
     func checkSeen() -> Bool{
-        var people = websocket.chatModel.people
+        var people = chatModel.people
         for i in people{
             if((i["last_read"] as? Int ?? -1) <  messageModel.id){
                 return false

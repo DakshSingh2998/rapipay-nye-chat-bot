@@ -41,6 +41,8 @@ struct SignUp: View {
     @State var buttonColor = Color("Grey")
     @State var buttonTextColor = Color("White")
     @State var backgroundOpacity = 1.0
+    @State var errorSyntax = ""
+    
     var coloredSignIn: AttributedString{
         var result = AttributedString("Sign In")
         result.foregroundColor = Color("Blue")
@@ -144,6 +146,22 @@ struct SignUp: View {
                         createUser()
                     }
                     .allowsHitTesting(signUpButtonEnabled)
+                    
+                    if(errorSyntax != ""){
+                        Text(errorSyntax)
+                            .lineLimit(99999999)
+                            
+                            .padding(6)
+                            .background(Color("LightGrey"))
+                            .cornerRadius(10)
+                            .padding(.top, 32)
+                            .multilineTextAlignment(.center)
+                    }
+                    else{
+                        EmptyView()
+                    }
+                    
+                        
                 }
                 
                 .padding(.horizontal, 50)
@@ -182,10 +200,12 @@ struct SignUp: View {
             self.height = Common.shared.height
             self.tfWidth = Common.shared.width - 100
             userNameFocus = true
+            /*
             vmUserName.value = "daksh2998"
             vmFirstName.value = "Daksh"
             vmLastName.value = "Singh"
             vmPassword.value = "Daksh@90"
+             */
         }
         .onDisappear(){
             vmUserName.value = ""
@@ -216,6 +236,22 @@ struct SignUp: View {
         .onChange(of: vmPassword.value){newVal in
             checkValidity()
         }
+        
+        .onChange(of: userNameFocus, perform: {newVal in
+            checkValidity()
+        })
+        .onChange(of: firstNameFocus, perform: {newVal in
+            checkValidity()
+
+        })
+        .onChange(of: lastNameFocus, perform: {newVal in
+            checkValidity()
+
+        })
+        .onChange(of: passwordFocus, perform: {newVal in
+            checkValidity()
+
+        })
     }
     func createUser(){
         backgroundOpacity = 0.2
@@ -233,8 +269,12 @@ struct SignUp: View {
             
         })
     }
+    
+
+    
     func checkValidity(){
         SignUpModel.shared.checkValidity(vmUserName: vmUserName.value, vmFirstName: vmFirstName.value, vmLastName: vmLastName.value, vmPassword: vmPassword.value, completition: {
+            
             isUserNameIncorrect,
             isFirstNameIncorrect,
             isLastNameIncorrect,
@@ -243,9 +283,11 @@ struct SignUp: View {
             if(isUserNameIncorrect == false){
                 self.isUserNameIncorrect = false
             }
+            
             if(isFirstNameIncorrect == false){
                 self.isFirstNameIncorrect = false
             }
+            
             if(isLastNameIncorrect == false){
                 self.isLastNameIncorrect = false
             }
@@ -254,11 +296,46 @@ struct SignUp: View {
             }
             self.signUpButtonEnabled = signUpButtonEnabled
             if(self.signUpButtonEnabled == true){
+                errorSyntax = ""
                 buttonColor = Color("Purple")
             }
             else{
                 buttonColor = Color("Grey")
-
+            }
+            if(userNameFocus){
+                if(isUserNameIncorrect){
+                    errorSyntax = "User Name must be 2 characters long"
+                }
+                else{
+                    errorSyntax = ""
+                }
+            }
+            
+            if(firstNameFocus){
+                if(isFirstNameIncorrect){
+                    errorSyntax = "First Name must be 2 characters long"
+                }
+                else{
+                    errorSyntax = ""
+                }
+            }
+            
+            if(lastNameFocus){
+                if(isLastNameIncorrect){
+                    errorSyntax = "Last Name must be 2 characters long"
+                }
+                else{
+                    errorSyntax = ""
+                }
+            }
+            
+            if(passwordFocus){
+                if(isPasswordIncorrect){
+                    errorSyntax = "Password must be 8 characters long, must only contain alphanumeric letters, must contain 1 Capital, 1 Small, 1 Number ans 1 Special character"
+                }
+                else{
+                    errorSyntax = ""
+                }
             }
             
         })

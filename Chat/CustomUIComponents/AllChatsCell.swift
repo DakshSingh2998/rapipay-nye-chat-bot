@@ -45,7 +45,7 @@ struct AllChatsCell: View {
                 )
                 */
 
-                    Text("\(messageModel.text)")
+                Text(messageModel.text.count < 60 ? "\(messageModel.text)" : "\(trimmedString())...")
                     .padding(.top, 0.5)
                         .lineLimit(100)
                         
@@ -70,6 +70,11 @@ struct AllChatsCell: View {
             )
             */
             //.padding(.horizontal, 10)
+    }
+    func trimmedString() -> String{
+        var ans = messageModel.text[messageModel.text.startIndex..<messageModel.text.index(messageModel.text.startIndex, offsetBy: 59)]
+        
+        return String(ans)
     }
 }
 

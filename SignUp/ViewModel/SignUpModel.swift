@@ -42,7 +42,7 @@ class SignUpModel{
     }
     
     func createUser(vmUserName:String, vmFirstName:String, vmLastName:String, vmPassword:String, completition: ((String?) -> ())?){
-        UserApi.shared.createUser( userName: vmUserName, firstName: vmFirstName, lastName: vmLastName, password: vmPassword, completition:{
+        UserApi().createUser( userName: vmUserName, firstName: vmFirstName, lastName: vmLastName, password: vmPassword, completition:{
             data, error in
                 guard let data = data as? [String: Any] else {
                     if(error != nil){

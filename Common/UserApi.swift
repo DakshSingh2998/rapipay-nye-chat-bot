@@ -7,7 +7,6 @@
 
 import Foundation
 class UserApi{
-    static var shared = UserApi()
     
     func createUser(userName:String, firstName:String, lastName:String, password:String, completition: ((Any, Any)->())?){
         let parameters = "{\n    \"username\": \"\(userName)\",\n    \"first_name\": \"\(firstName)\",\n    \"last_name\": \"\(lastName)\",\n    \"secret\": \"\(password)\" \n}"

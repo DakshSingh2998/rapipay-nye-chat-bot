@@ -66,7 +66,7 @@ class ChatApi{
         let httpMethod = "POST"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
-        NetworkManager().connect(url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, timeOutInterval: 2, completition: {data, error in
+        NetworkManager.shared.connect(url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, timeOutInterval: 2, completition: {data, error in
             completition?(data, error)
             self.isTyping = false
             
@@ -78,7 +78,7 @@ class ChatApi{
         let httpMethod = "PATCH"
         let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
         let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
-        NetworkManager().connect(parameters:parameters, url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, timeOutInterval: 60, completition: {data, error in            
+        NetworkManager.shared.connect(parameters:parameters, url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, timeOutInterval: 60, completition: {data, error in
         })
     }
     

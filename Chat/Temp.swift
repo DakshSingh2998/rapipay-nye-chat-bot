@@ -12,7 +12,7 @@ struct Temp{
     init(){
         
         
-        //what to save in dabase ie options graph.
+        //what to save in database ie options graph.
         //and why graph cause every node can have multiple parents and multiple children. so yeah it is a graph.
         
         /*

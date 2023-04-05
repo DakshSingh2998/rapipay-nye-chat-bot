@@ -9,7 +9,7 @@ import Foundation
 class LoginModel{
     static var shared = LoginModel()
     func getUser(tempUser:String, tempPass:String, completition: ((UserModel?, Error?) -> ())?){
-        UserApi.shared.getUser(userName: tempUser, pass: tempPass, completition: { data, error in
+        UserApi().getUser(userName: tempUser, pass: tempPass, completition: { data, error in
             var userModel:UserModel?
             guard let data = data as? [String: Any] else {
                 if(error != nil){
