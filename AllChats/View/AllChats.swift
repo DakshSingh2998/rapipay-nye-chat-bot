@@ -121,7 +121,7 @@ struct AllChats: View {
         }
     }
     func getChats(){
-        AllChatsModel.shared.getChats(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, completition: {allChats, error in
+        AllChatsModel.shared.getChats( completition: {allChats, error in
             if(error != nil || allChats == nil){
                 if(error != nil){
                     alertText = error!

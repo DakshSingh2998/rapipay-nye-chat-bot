@@ -49,7 +49,7 @@ class Websocket:ObservableObject {
     private func receiveMessage() {
         webSocketTask?.receive { result in
             self.receiveMessage()
-            print(result)
+            //print(result)
             switch result {
             case .failure(let error):
                 //print("rrr", error.localizedDescription)
@@ -97,7 +97,7 @@ class Websocket:ObservableObject {
                                     continue
                                 }
                                 if((people[i]["last_read"] as? Int ?? -1) < newPeople[j]["last_read"] as? Int ?? 0){
-                                    ChatApi.shared.patchLastRead(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, chatId: self.chatModel.id, lastReadId: last_message["id"] as! Int)
+                                    ChatApi.shared.patchLastRead(chatId: self.chatModel.id, lastReadId: last_message["id"] as! Int)
                                     break
                                 }
                             }

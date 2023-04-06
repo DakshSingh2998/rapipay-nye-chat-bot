@@ -12,16 +12,18 @@ class UserApi{
         let parameters = "{\n    \"username\": \"\(userName)\",\n    \"first_name\": \"\(firstName)\",\n    \"last_name\": \"\(lastName)\",\n    \"secret\": \"\(password)\" \n}"
         let url = "\(Constant.shared.domain)\(Constant.shared.createUser)"
         let httpMethod = "POST"
-        let addValue = ["PRIVATE-KEY" : Common.shared.privateKey]
-        let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
+        let addValue = Common.shared.addHeader(privateKey: true)
+        let setValue = Common.shared.defaultJson()
         NetworkManager.shared.connect(parameters: parameters, url: url, httpMethod: httpMethod, setValue: setValue, addValue: addValue, completition: {data, err in
             completition?(data, err)
         })
         
     }
     func getUser(userName:String, pass:String, completition: ((Any, Any) -> ())?){
-        let addValue = ["Project-ID" : Common.shared.projectId, "User-Name" : userName, "User-Secret" : pass]
-        let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
+        var addValue = Common.shared.addHeader(projectId: true)
+        addValue["User-Name"] = userName
+        addValue["User-Secret"] = pass
+        let setValue = Common.shared.defaultJson()
         let httpMethod = "GET"
         let url = "\(Constant.shared.domain)\(Constant.shared.myUser)"
         
@@ -31,7 +33,7 @@ class UserApi{
     }
     func getUsers(completition: ((Any, Any) -> ())?){
         let addValue = ["PRIVATE-KEY" : Common.shared.privateKey]
-        let setValue = ["Content-Type" : "application/json", "Accept" : "application/json"]
+        let setValue = Common.shared.defaultJson()
         let httpMethod = "GET"
         let url = "\(Constant.shared.domain)\(Constant.shared.createUser)"
         

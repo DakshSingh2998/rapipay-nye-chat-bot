@@ -9,8 +9,8 @@ import Foundation
 class AllChatsModel{
     static var shared = AllChatsModel()
     
-    func getChats(userName: String, pass: String, completition: (([ChatModel]?, String?) -> ())?){
-        ChatApi.shared.getChats(userName: userName, pass: pass, completition: {data, error in
+    func getChats(completition: (([ChatModel]?, String?) -> ())?){
+        ChatApi.shared.getChats( completition: {data, error in
             var allChats:[ChatModel]
             guard let data = data as? [[String: Any]] else {
                 if(error != nil){

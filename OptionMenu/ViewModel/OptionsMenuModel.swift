@@ -33,7 +33,7 @@ class OptionsMenuModel{
                }
             randAgent = agents.randomElement()
             
-            ChatApi.shared.createChat(userName: userName, pass: pass, previousOption: previousOption, userToAdd: randAgent!.userName, completition: {data, error in
+            ChatApi.shared.createChat( previousOption: previousOption, userToAdd: randAgent!.userName, completition: {data, error in
                 guard let data = data as? [String: Any] else {
                     if(error != nil){
                         completition?(nil, (error as! Error).localizedDescription)

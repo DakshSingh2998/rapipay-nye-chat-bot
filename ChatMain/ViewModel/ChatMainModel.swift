@@ -29,9 +29,8 @@ class ChatMainModel{
             completition?(nil)
         }
         
-        var userName = UserDefaults.standard.value(forKey: "user") as! String
-        var pass = UserDefaults.standard.value(forKey: "pass") as! String
-        ChatApi.shared.sendMessage(userName: userName, pass: pass, chatId: chatModel.id, text: textInTf, completition: {data, error in
+        
+        ChatApi.shared.sendMessage( chatId: chatModel.id, text: textInTf, completition: {data, error in
             
             guard let data = data as? [String: Any] else {
                 completition?((error as! Error).localizedDescription)
@@ -47,18 +46,16 @@ class ChatMainModel{
     
     func typingChange(lastTextInTf:String, textInTf:String, chatModel:ChatModel){
         if(lastTextInTf != textInTf){
-            var userName = UserDefaults.standard.value(forKey: "user") as! String
-            var pass = UserDefaults.standard.value(forKey: "pass") as! String
-            ChatApi.shared.sendTyping(userName: userName, pass: pass, chatId: chatModel.id, completition: {_,_ in
+            
+            ChatApi.shared.sendTyping( chatId: chatModel.id, completition: {_,_ in
             })
         }
         
     }
     func sendTyping(chatModel:ChatModel){
         
-        var userName = Common.shared.userDefaultName
-        var pass = Common.shared.userDefaultPass
-        ChatApi.shared.sendTyping(userName: userName, pass: pass, chatId: chatModel.id, completition: {_,_ in
+        
+        ChatApi.shared.sendTyping( chatId: chatModel.id, completition: {_,_ in
         })
     }
     func setAgentName(chatModel:ChatModel, userModel:UserModel) -> String{
@@ -70,9 +67,8 @@ class ChatMainModel{
         return ""
     }
     func loadMessages(websocket: Websocket, chatModel:ChatModel, completition: ((String?) -> ())?){
-        var userName = Common.shared.userDefaultName
-        var pass = Common.shared.userDefaultPass
-        ChatApi.shared.getMessages(userName: userName, pass: pass, chatId: chatModel.id, completition: {data, error in
+        
+        ChatApi.shared.getMessages( chatId: chatModel.id, completition: {data, error in
             guard let data = data as? [[String: Any]] else {
                 if(error != nil){
                     completition?((error as? Error)?.localizedDescription ?? "Api error")
@@ -96,6 +92,6 @@ class ChatMainModel{
         })
     }
     func patchLastRead(chatModel:ChatModel, lastReadId: Int){
-        ChatApi.shared.patchLastRead(userName: Common.shared.userDefaultName, pass: Common.shared.userDefaultPass, chatId: chatModel.id, lastReadId: lastReadId)
+        ChatApi.shared.patchLastRead( chatId: chatModel.id, lastReadId: lastReadId)
     }
 }

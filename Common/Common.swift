@@ -8,6 +8,9 @@
 import Foundation
 import UIKit
 import SwiftUI
+
+
+
 class Common{
     static var shared = Common()
     var privateKey = "22b8844b-a242-4d70-87be-b9b74e60a901"
@@ -70,6 +73,25 @@ class Common{
     func isValidPassword(_ password: String) -> Bool{
         let passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*()\\-_=+{}|?>.<,:;~`’]{8,}$"
             return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: password)
+    }
+    func defaultJson() -> [String:String]{
+        return ["Content-Type" : "application/json", "Accept" : "application/json"]
+    }
+    func addHeader(privateKey:Bool = false, projectId:Bool = false, userName:Bool = false, userSecret:Bool = false) -> [String:String]{
+        var ans:[String:String] = [:]
+        if(privateKey == true){
+            ans["PRIVATE-KEY"] = Common.shared.privateKey
+        }
+        if(projectId == true){
+            ans["Project-ID"] = Common.shared.projectId
+        }
+        if(userName == true){
+            ans["User-Name"] = Common.shared.userDefaultName
+        }
+        if(userSecret == true){
+            ans["User-Secret"] = Common.shared.userDefaultPass
+        }
+        return ans
     }
     
 }
