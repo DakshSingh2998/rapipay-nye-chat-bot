@@ -53,7 +53,7 @@ class OptionsMenuModel{
     }
     
     func loadOptions(completition: (([String: [String]]?) ->())?){
-        var options = DatabaseHelper.shared.loadOptions()
+        var options = DatabaseHelper().loadOptions()
         var finalOptions:[String: [String]] = [:]
         for i in options{
             if(finalOptions[i.text!] == nil){

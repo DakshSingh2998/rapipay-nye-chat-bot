@@ -12,7 +12,6 @@ import SwiftUI
 struct DatabaseHelper{
     //@Environment(\.managedObjectContext) var context
     var context = PersistenceController.shared.container.viewContext
-    static var shared = DatabaseHelper()
     func saveOption(text:String, parents:[TDataCore]? = nil) -> TDataCore{
         let obj = NSEntityDescription.insertNewObject(forEntityName: "TDataCore", into: context) as! TDataCore
         obj.text = text

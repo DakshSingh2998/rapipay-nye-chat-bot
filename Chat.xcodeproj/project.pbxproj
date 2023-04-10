@@ -140,6 +140,7 @@
 		522E3AE129C86F8000444254 = {
 			isa = PBXGroup;
 			children = (
+				5232E74329D14DB3003CFCE4 /* CustomUIComponents */,
 				523E1FE1406D381E00EB1E27 /* Common */,
 				52B2148B29D5AE8900E87C7C /* ChatMain */,
 				52B2148829D5AE2100E87C7C /* OptionMenu */,
@@ -169,7 +170,6 @@
 		522E3AEC29C86F8000444254 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
-				5232E74329D14DB3003CFCE4 /* CustomUIComponents */,
 				522E3AED29C86F8000444254 /* ChatApp.swift */,
 				5228C79229CC73DE00C6859F /* Temp.swift */,
 				522E3AEF29C86F8000444254 /* ContentView.swift */,
